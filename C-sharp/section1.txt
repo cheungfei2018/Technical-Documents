@@ -1,0 +1,50 @@
+
+.net与C#
+	.net：一般指.Net Framework框架，是一种平台，一种技术
+	C#(sharp)：一种编程语言，可开发基于.net平台的应用
+	java：既是一种技术也是一种编程语言
+	
+	
+.net可用来干什么：
+	1.开发桌面程序 --> Winform开发
+	2.Internet应用程序 --> ASP.NET
+	3.手机开发 --> wp7 (windows phone 7)
+	
+
+C/S：客户端(Client)/服务器(Server)模式
+B/S：浏览器(Browser)/服务器(Server)模式
+
+.Net学习路线
+C#语言	：C#面向过程、C#面向对象
+--》简单的WinForm  
+--》 基本.Net FrameWork 
+--》数据库（ADO.Net） 
+--》  web  
+--》ASP.net  
+--》ASP.Net WebForm
+--》AJAX
+
+
+
+IDE（继承开发环境，Integrated Development）
+	Visual Studio
+	
+	
+MSDN：Microsoft Developer network;微软向软件开发者提供的的一种信息服务，是开发虚拟社区，包含了技术文档、在线电子教程、网络虚拟实验室、微软产品下载、Blog、BBS等等一系列服务
+
+
+VS2012安装使用：
+
+
+基本项目创建：
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,70 @@
+React Native 与 React很相似；只是他的组件时原生组件而非web组件。
+
+需要先理解一些React的概念，如：JSX语法、组件、state状态以及props属性等等
+同时还需要掌握一些React Native特有的只是，如原生组件
+
+React Native需要基础：
+	1.ES6
+	2.JSX
+	3.Node.js基础
+	4.Flexbox布局
+	
+
+开发调试：
+	1.运行react-native run-android
+	2.手机开发菜单中选择reload（重新加载）
+	3.根据js内容改变自动实时刷新：手机开发菜单选择Enable live reload
+	
+	
+
+import React, { Component } from 'react';	//引入react模块
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';		//批量定义组件
+
+const instructions = Platform.select({		//设置内容
+  ios: 'Press Cmd+R to reload,\n' +
+    'Cmd+D or shake for dev menu',
+  android: 'Double tap R on your keyboard to reload,\n' +
+    'Shake or press menu button for dev menu',
+});
+
+export default class App extends Component<{}> {	//设置 App 入口类
+  render() {			//render()方法用于渲染视图
+    return (			//返回渲染好的视图的模板代码；JSX语法
+      <View style={styles.container}>
+        <Text style={styles.welcome}>
+          Welcome to React Native!
+        </Text>
+        <Text style={styles.instructions}>
+          To get started, edit App.js
+        </Text>
+        <Text style={styles.instructions}>
+          {instructions}
+        </Text>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({	//StyleSheet.create()方法提供视图样式
+  container: {		//其中一个样式
+    flex: 1,		//样式的每一个属性之间使用逗号 , 隔开
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+});

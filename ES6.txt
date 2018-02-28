@@ -1,0 +1,144 @@
+1.变量的声明：const和let	(tip:与ES5不同，const\let定义的变量不存在变量提升)
+	const：常量
+	let：变量
+	
+	const\let：块级作用域，{}内的代码块
+	
+2.模板字符串：使用反引号``括起来的字符串
+	1.基本字符串的格式化\链接字符串与变量;将表达式嵌入字符串进行拼接，用${}来界定
+	2.对于特殊字符，ES6中使用反引号``直接搞定；ES5中需要反斜杠(\)进行转移
+	3.E6中提供的常用字符串方法：
+		3.1.String.includes(subStr)：判断是否包含某个子串，然后返回布尔值
+			subStr：表示要检查String字符串中是否包含的子串
+		3.2.String.repeat(num)：获得字符串重复的次数
+			num：对String重复的次数，为整数
+		
+3.函数：
+	函数的默认参数：
+	function fun(num = 100){}	//这种是ES6的写法，不过通用与ES5之前的版本
+	function fun(num){num = num || 200;}	//ES5的默认参数
+	
+	箭头函数：函数的快捷写法
+	箭头函数最直观的特点：
+		1.不需要function关键字创建函数
+		2.省略return关键字
+		3.继承当前上下文的this关键字
+		
+		格式：var functionName = (param1,param2...) =>{
+			//函数代码块
+		}
+		tip：当函数有且仅有一个参数时，可以省略掉括号，当函数返回有且仅有一个表达式时可以省略{}；如下：
+		var peo = name => "hello"+name;
+		其中 peo 是箭头函数的函数名；name 是箭头函数的参数；"hello"+name是返回值
+		
+4.扩展的对象功能：
+	对象的初始化简写：
+		ES5中由于对象都是以键值对的形式书写，所以可能出现键值对重名，也就是键和值具有相同的名称；如：
+			function people(name, age) {
+				return {
+					name: name,
+					age: age
+				};
+			}
+		在ES6中可以进行简写：
+		function people(name, age) {
+			return {
+				name,
+				age
+			};
+		}
+		
+	ES6也改进了为对象字面量方法赋值的语法；可以省略冒号与function，语法变得更简洁：
+		const people = {
+			name: 'lux',
+			getName () {
+				console.log(this.name)
+			}
+		}
+		
+	ES6对象提供了Object.assign()方法实现浅复制；可以吧任意多个源对象自身可美剧的属性拷贝给目标对象，然后返回目标对象。第一参数即为目标对象，实际项目中为了不改变原对象，一般讲目标对象设为{}；如：
+		const obj = Object.assign({},objA,objB...);
+		
+	
+5.方便的数据结构--解构
+	对象和数组时JS中最常用也是最重要的表示形式，为了简化提取数组元素和对象属性的信息，ES6新增了解构，可以将一个数据结构分解为更小的部分的过程
+	
+	解构能让我们从对象或数组中提取数据存为变量，如：
+		const people = {
+			name: 'lux',
+			age: 20
+		}
+		const { name, age } = people	//name和age变量分别提取了people对象的属性
+		const color = ['red', 'blue']
+		const [first, second] = color	//first和second变量提取了数组中的元素
+		
+6.Spread Operator：开展运算符
+	格式：...		-->（就是三个点）
+	1.组装数组或对象象；如：
+		const color = ['red', 'yellow']		//数组
+		const colorful = [...color, 'green', 'pink']
+		//colorful的元素变成了：'red','yellow','green', 'pink'
+		
+		const alp = { fist: 'a', second: 'b'}	//对象
+		const alphabets = { ...alp, third: 'c' }
+		//alphabets对象属性变成了：fist:'a',second:'b',third:'c'
+		
+	2.也可以获取数组或对象除了前几项或者除了某几项的其他项；如：
+		const number = [1,2,3,4,5]
+		const [first, ...rest] = number
+		//rest数组的元素：[2,3,4,5];
+		
+		 const user = {
+			username: 'lux',
+			gender: 'female',
+			age: 19
+		}
+		const { username, ...rest } = user
+		//rest对象的属性：gender: 'female',age: 19
+	
+	3.对于对象Object而言，还可以使用...组合成新的Object
+		tip:如果有重复的属性名，则右边覆盖左边
+		如：
+		const first = {a: 1,b: 2,c: 6,}
+		const second = {c: 3,d: 4}
+		const total = { ...first, ...second }
+		//total属性： a: 1, b: 2, c: 3, d: 4
+			
+7.class--类：
+	ES5以前生成实例对象的方法是通过构造函数
+	
+	ES6提供了更接近传统语言的写法，引入了Class类概念；通过关键字class定义类
+	
+	在ES6中的class可以看做一个语法糖，他的绝大部分功能，ES5也可以做到，只是class的写法让对象原型的写法更加清晰，更像面向对象编程的语法；
+	格式：
+		class Point{
+			constructor(x,y){	//构造方法；与ES5中的Point构造函数对应
+				this.x=x;		//this表示实例对象
+				this.y=y;
+			}
+			//不需要使用function关键字；而且方法与方法之间不能用逗号分隔；否则出错
+			//自定义方法：
+			toString(){			
+				return this.x;
+			}
+		}
+		
+	typeof Point	//function;类的数据类型就是function，类本身指向构造函数
+	
+	使用：直接对类使用new命令，与构造函数的用法一致
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

@@ -1,0 +1,74 @@
+1.React-Native组件：
+	RN提供了一套原生的IOS组件，不需要使用H5去模拟组件，RN使用css来构建页面布局，使用Native iOS Components给我们提供了强大的组件功能
+	
+2.使用css样式 & Flexbox布局
+
+	2.1 React-Native使用的css表达是一个JS字面量对象，并且严格区分该对象属性的类型，所以要遵循对象的写法，而不能使用以前的css写法；单这些样式名字基本上时遵循了web上的css命名，只是按照JS的语法要求使用了驼峰命名法
+	
+	style属性可以是一个普通的JavaScript对象，这是简单用法；也可以传入一个数组，在数组中居后的样式对象比居前的优先级更高；通过这种方式可以间接实现样式的继承；所有核心组件都接受名为style的属性
+	
+	React-Native中的尺寸都是无单位的；表示的是与设备像素密度无关的逻辑像素点
+	
+	在开发中不推荐使用内联样式；推荐使用StyleSheet.create来几种定义组件的样式
+	
+	查看RN支持哪些样式：
+		1.查手册
+		2.可以在样式里写错一个属性，如border；报错时会出现属性列表
+			tip:错误属性需要写到样式的创建中，写到内联样式看不到报错提示
+			
+	2.2. Flexbox布局(与web的flexbox有很大区别，默认是竖直方向为主轴)
+		flex：表示该元素是可伸缩的，当值大于0时有效，小于或等于0时不伸缩
+		flexBasis：定义该元素分配的空间
+		flexDirection：在RN中只有两个属性值；row(横向缩放)和column(纵向缩放)；决定子元素排列方向的主轴
+		flexGrow：放大比例
+		flexShrink：缩小比例
+		flexWrap：换行方式
+		alignSelf：该元素的对齐方式：flex-start、flex-end、center、 auto、stretch
+		alignItems：决定子元素沿着交叉轴(次轴)方向的排列方式；flex-start、center、flex-end以及stretch
+		justifyContent：决定子元素沿着主轴方向的排列方式；flex-start、center、flex-end、space-around以及space-between
+		
+		
+	
+	React-Native的布局和样式不像浏览器那样灵活和有规律可寻，其中规律需要自己踩坑的时候发现，如：
+		不存在zIndex,后面的元素覆盖前面的元素
+		内层元素覆盖外层元素等
+		borderRadius的设置，需要考虑到内层元素的位置等
+		
+		
+		
+Flex宽高：
+	在组件样式中使用flex可以使其在可利用的空间中动态地扩张或收缩。一般而言我们会使用flex:1来指定某个组件扩张以撑满所有剩余的空间。如果有多个并列的子组件使用了flex:1，则这些子组件会平分父容器中剩余的空间。如果这些并列的子组件的flex值不一样，则谁的值更大，谁占据剩余空间的比例就更大（即占据剩余空间的比等于并列组件间flex值的比）	
+	组件能够撑满剩余空间的前提是其父容器的尺寸不为零。如果父容器既没有固定的width和height，也没有设定flex，则父容器的尺寸为零。其子组件如果使用了flex，也是无法显示的
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+	layout1.js中遇到的问题：
+		在android模拟机中，Image组件使用uri无法获得本地图片，使用require()可以
+		
+		
+		
+	

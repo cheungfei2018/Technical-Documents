@@ -1,0 +1,99 @@
+React Native Android只能在mac下运行
+这里将在windows下搭建React Native Android开发平台
+
+1.安装JDK
+	到Java下载JDK(注意32位或64位)
+	安装好之后配置环境
+	
+2.安装android SDK 这里使用android studio
+然后进入SDKManager(可通过Android Studio菜单Tools-Android-SDK Manager)，确保以下项目已经安装并更新到最新：
+    Tools/Android SDK Tools
+    Tools/Android SDK Platform-tools
+    Tools/Android SDK Build-tools (23.0.1)（这个必须版本严格匹配23.0.1）
+    Android 6.0 (API 23)/SDK Platform (1)
+    Extras/Android Support Library
+    Extras/Android Support Repository
+
+
+3.安装python	//刚安装还未用到，不知道作用
+
+4.安装git for windows	//git应该不安装也没事
+
+5.安装node.js
+
+6.使用npm安装react-native命令行工具
+	npm install -g react-native-cli
+
+7.创建项目：
+	react-native init projectName
+	
+8.进入项目运行packager--启动项目
+	react-native start
+	
+	查看打包后的脚本，可在浏览器访问：
+		http://localhost:8081/index.bundle?platform=android
+	老版本：
+		http://localhost:8081/index.android.bundle?platform=android
+		
+	
+9.运行app；命令：react-native run-android
+	9.1:使用模拟器，可以使用蓝叠或夜神android模拟器
+	9.2：真机运行
+	tip：首次运行需要从网上下载gradle依赖，花费时间比较久，需要看网速
+	
+	夜神模拟器需要配置adb.exe:
+	 1.找到本地SDK位置,然后打开platform-tools文件夹。然后复制该路径地址，
+	 2.在命令行中打开改地址，运行：adb.exe connect 127.0.0.1:62001
+	
+	如果apk安装运行报错，需要检查SDK安装环节是否出错，platform-tools是否已经设到了PATH环境变量中，运行adb devices能否看到设备
+	
+	红屏报错解决方法：
+		1.在命令行中拼ipconfig,得到本机的ip地址
+		2.在模拟机或真机中的开发者设置的host设置中输入ip:8081(端口号一定要写)
+	
+10.android调试：
+	打开Chrome，访问 http://localhost:8081/debugger-ui，应当能看到一个页面。按F12打开开发者菜单。
+	在模拟器或真机菜单中选择Debug JS，即可开始调试
+	
+	
+
+遇到的问题：
+1.jdk版本直接下载了最新版本(9.X)，结果无法兼容出错，
+	解决：重新下载较低版本的jdk安装配置 
+	
+2.android studio进入SDKManager安装时有问题：
+	由于网上相关资料都是比较老的androidStudio，导致操作界面以及选项有所不同，但总的来说只要确保了上面几个选项的安装之后SDK就没有问题了
+	网上解决链接：
+		https://www.cnblogs.com/yuying0527/archive/2017/07/24/7230203.html
+	
+	
+3.Exception in thread "main" java.util.zip.ZipException:zip END header not fonund
+	在执行react-native run-android 命令在android上安装apk时，因为需要下载gradle依赖，应该是网络下载的问题，导致需要下载的gradle-2.14.1-all.zip包及其相关的东西没有下载到.
+	解决：
+		1.重新创建工程
+		2.网上下载gradle-2.14.1-all.zip包并放置到：C:\Users\yy140502\.gradle\wrapper\dists\gradle-2.14.1-all\随机文件名\下面
+	网上解决链接：
+		http://blog.csdn.net/u010411264/article/details/53636956
+
+4.需要找dev setting需要在手机上安装apk成功了之后才会有这个界面
+
+
+5.adb devices :cannot connect to daemon  
+	原因：某个应用进程将占用了adb
+	解决：在任务管理器中将进程结束，如360手机助手
+	
+	
+6.夜神模拟器连接正常，但运行时无法连接上服务器
+	解决方法：
+	http://blog.csdn.net/qq_25827845/article/details/52974991
+	
+	
+	
+	
+	
+	
+	
+
+
+
+

@@ -1,0 +1,36 @@
+1.安装nodeJS
+
+2.使用npm安装webpack
+	//全局安装
+	npm install -g webpack
+	//安装到项目目录
+	npm install --save-dev webpack
+	
+3.创建package.json文件
+	//在项目根目录下执行
+	npm init
+	
+4.文件打包
+	//执行命令
+	webpack 需要打包的文件路径 打包的目标文件路径
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

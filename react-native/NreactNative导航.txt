@@ -1,0 +1,86 @@
+Navigator：(已被启用)
+如果想要使用，需要重新安装插件：
+npm install react-native-tab-navigator
+
+
+react-navigation是2017.1新出的导航组件
+
+从使用形式上分为三种：
+	1.StackNavigator：类似于普通的Navigator，屏幕上方导航栏，用于实现各个页面之间的跳转
+	2.TabNavigator：屏幕下方的标签栏，主要用于同一个页面上的不同界面之间的切换
+	3.DrawerNavigator：抽屉效果，侧边滑出
+	
+安装导航组件库：npm install react-navigation（该库包含以上三种）
+
+
+StackNavigator导航栏注册API：		
+	StackNavigator(RouteConfigs,StackNavigatorConfig)
+	tip:使用StackNavigator必须注册导航器，将页面关联到导航器中，在导航器中的每个页面都有一个navigation属性(可以在组件中console.log一下this.props查看):
+		navitate(页面路由，传递参数对象):用于跳转到其他页面
+		state：当前页面导航器的状态，如跳转到该页面时传递过来的参数
+		setParams：更改路由的参数
+		goBack-返回上一页
+		dispatch：发送一个action
+	
+	RouteConfigs（路由参数）:
+		navigationOptions--路由页面的配置选项，它会覆盖被StackNavigatorConfig参数中的navigationOptions 的对应属性。
+		screen:对应界面名称，需要填入import之后的页面
+		
+	StackNavigatorConfig(堆栈导航栏设置参数)：
+		initialRouteName--导航器组件中初始显示页面的路由名称，如果不设置，则默认第一个路由页面为初始显示页面
+		initialRouteParams--给初始路由的参数，在初始显示的页面中可以通过this.props.navigation.state.params 来获取
+		navigationOptions--路由页面的配置选项，它会被RouteConfigs参数中的navigationOptions 的对应属性覆盖。
+		
+		paths - 路由中设置的路径的覆盖映射配置
+		
+		mode - 页面跳转方式，有 card 和 modal 两种，默认为 card ：
+			card - 原生系统默认的的跳转，左右互换
+			modal - 只针对iOS平台，模态跳转，上下切换
+		
+		headerMode - 页面跳转时，头部的动画模式，有 float 、 screen 、 none 三种：
+			float - 渐变，类似iOS的原生效果，无透明
+			screen - 标题与屏幕一起淡入淡出，如微信一样
+			none - 没有动画
+			
+		cardStyle - 为各个页面设置统一的样式，比如背景色，字体大小等
+		
+		transitionConfig - 配置页面跳转的动画，覆盖默认的动画效果
+		
+		onTransitionStart - 页面跳转动画即将开始时调用
+		
+		onTransitionEnd - 页面跳转动画一旦完成会马上调用
+
+		
+	navigationOptions(路由页面的配置选项)：
+		title - 可以作为头部标题 headerTitle ，或者Tab标题 tabBarLabel
+		header--自定义的头部组件，使用该属性后系统的头部组件会消失，如果想在页面中自定义，可以设置为null，这样就不会出现页面中留有一个高度为64navigationBar的高度
+		
+		headerTitle - 头部的标题，即页面的标题
+		
+		headerBackTitle - 返回标题，默认为 title
+		
+		headerTruncatedBackTitle--返回标题不能显示时（比如返回标题太长了）显示此标题，默认为 “Back”
+		
+		headerRight - 头部右边组件
+		headerLeft - 头部左边组件
+		headerStyle - 头部组件的样式
+		headerTitleStyle - 头部标题的样式
+		headerBackTitleStyle - 头部返回标题的样式
+		headerTintColor - 头部颜色
+		headerPressColorAndroid - Android 5.0 以上MD风格的波纹颜色
+		gesturesEnabled - 否能侧滑返回， iOS 默认 true ， Android 默认 false
+		
+	navigationOptions配置的三种方法：
+		1.RouteConfigs中的navigationOptions属性配置，优先级第二
+		2.StackNavigatorConfig中的navigationOptions属性配置，优先级最低
+		3.静态配置：优先级最高
+			static navigationOptions = ({navigation}) => ({ ... });
+		
+	
+		
+		
+	
+	
+安装：
+npm install prop-types
+	
