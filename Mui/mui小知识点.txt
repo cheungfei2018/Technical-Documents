@@ -1,0 +1,32 @@
+1.导航栏透明渐变(div模式)
+	<header class="mui-bar mui-bar-transparent">
+	
+2.开启页面右滑关闭功能
+	mui.init({
+		swipeBack:true	//true时屏幕右滑可以关闭页面
+	});
+	tip:在android中必须快速摩擦屏幕才能达到关闭的效果，体验效果太差，IOS未知(好像会比较好)
+	
+3.关闭webview可以使得其他webview显现出来：
+	关闭当前webview：plus.webview.currentWebview().close();
+	关闭具体webview: plus.webview.getWebviewById("wvID/文件名").close()
+	应用主页面：var main = plus.webview.getLaunchWebview();
+
+	
+4.自定义事件(可用于激活另一个页面的代码块)：
+	定义自定义事件：
+		document.addEventListener('事件名称',function(){});
+	调用自定义事件：
+		mui.fire('webview页面','事件名称');
+		
+5.模拟事件调用：
+	mui.trigger("事件按钮"，"事件名称")
+		事件按钮：通常为获得的HTML元素
+		事件名称：如tap等事件
+		
+6.页面打开：
+	plus.webview.open("activity.html", "activity.html", {}, 'slide-in-right', 200);
+	
+7.原生导航栏:
+	
+	

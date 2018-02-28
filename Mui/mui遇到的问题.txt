@@ -1,0 +1,88 @@
+1.单webview模式下拉刷新无效问题
+	解决方法：在下拉处理函数中数据处理添加以下语句：
+	mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+	#refreshContainer表示下拉刷新容器ID值
+	
+	上面语句的作用是：关闭"正在刷新"的样式提示
+	
+
+2.mui遇到的坑：(20171225)
+	1.子页面跳转到新页面(关闭父页面的头部导航和底部选项卡的影响)
+	解决：子页面使用事件监听跳转，然后使用下面语句跳转：
+		mui.openWindow({
+				url:"activity.html",
+				id:"activity.html",
+			});
+		tip:与文件夹位置应该无关
+	
+	2.跳转页面后，新页面的mui和plus都出现未定义
+		解决：	确保引用路径正确
+				使用min.js压缩文件(前面在使用mui.js时报错)
+				
+	3..mui-action-back(返回类)失效
+		解决：重写返回事件：mui.back();即可
+		tip:最好写在mui.plusReady()函数中
+		
+		
+3.使用webview选项卡模式，在需要判断用户是否登录而选择加载不同的子页面：
+	解决方案：
+		1.先加载未登录模式
+		2.点击选项卡后获得的
+		
+		
+4.从其他页面跳回到带webview选项卡的主页面后，选项卡功能失效或混乱
+	解决方案1（已使用）：
+		1.不要使用mui.openWindow跳转(会导致很多功能失效，如下拉)
+		2.获取当前的页面以及需要关闭的所有页面进行关闭：close()使用：
+			//关闭具体页面，如：
+			plus.webview.getWebviewById("login.html").close();
+			//关闭本页面
+			plus.webview.currentWebview().close();
+	
+	解决方案2：http://ask.dcloud.net.cn/question/2816（未测试）
+	
+	
+5.标记登录状态和非登录状态，并根据登录状态改变webview子页面的链接页面
+	解决方案1：
+		设置一个storage存放一个标记logintag，
+		未登录：logintag = null
+		登录：logintag = true
+		
+6.webview选项卡中有子页面内容根据不同条件变化(如：登录/登出)
+	解决方案1：
+		在webview选项卡主页面进行判断，然后根据不同条件去改变变量的值
+		缺点：会把代码改的很混乱，而且必须每次条件改变度必须重新设置一遍需改变的变量(用封装)，页面测试中卡顿、失效等
+	解决方案2：
+		webview选项卡页面保持不变，在子页面中使用选项卡内容切换方式(隐藏选项根据登录标记来判定)
+		
+		
+7.通过预加载实现产品详情页，传递值时，值能传递到详情页面，但是无法渲染到详情页面中的HTML内容中
+	
+	
+8.去除跳页时屏幕中间的圈圈等待：
+		mui.openWindow({
+			url:'../product-detail.html',
+			id:'product-detail',
+			waiting:{		
+				autoShow:false,	//等待圈圈，默认为true
+				title:"正在进入详情..."
+			},
+			extras:{
+				product_id:1,
+				yj:yj,
+				yh:yh
+			}
+		})
+		
+8.手机状态栏问题
+	四种状态：正常、变色、透明(也称沉浸式状态栏)、消失(透明)
+	资料：http://blog.csdn.net/sinat_33713995/article/details/74783768
+	
+	
+	
+	
+	
+
+我的企业邮箱：
+	chenyubin@yiyezhiqiu.com.cn
+	Yyzq789cyb357

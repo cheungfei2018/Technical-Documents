@@ -1,0 +1,60 @@
+Node.js安装包及源码下载地址：
+	https://nodejs.org/en/download/
+
+安装环境：
+	1.window
+	2.linux
+	
+window安装包(.msi)：分为32位和64位
+
+安装完成后检测PATH环境变量中是否配置了Node.js:
+	点击开始=》运行=》输入"cmd" => 输入命令"path"
+	
+检查node.js版本：
+	node --version
+	
+	
+window二进制文件(.exe)安装：分为32位和64位
+	1.双击下载的安装包
+	2.点击run按钮出现命令行窗口
+	？？？
+	
+	
+	
+Wbuntu上安装Node.js:
+
+1.node.js 源码安装
+	1.1 在Github上获得Node.js源码
+		$ sudo git clone https://github.com/nodejs/node.git
+	1.2 修改目录权限
+		$ sudo chmod -R 755 node
+	1.3 使用 ./configure创建编译文件，并按照：
+		$ cd node
+		$ sudo ./configure
+		$ sudo make
+		$ sudo make install
+	1.4 查看nodejs脚本
+		$ node --version
+	
+2.使用apt-get命令安装
+	sudo apt-get install nodejs
+	sudo apt-get install npm	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

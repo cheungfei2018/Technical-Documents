@@ -1,0 +1,8 @@
+Node.js应用的组成部分：
+	1.引入required模块：可以使用require指令来载入node.js模块
+	2.创建服务器：服务器可以监听客户端的请求，类似于Apache、Nginx等http服务器
+	3.接收请求与响应请求：服务器很容易创建，客户端可以使用浏览器或终端发送http请求，服务器接收请求后返回响应数据
+	
+
+示例见：
+	node-Demo\firstNodeJs
