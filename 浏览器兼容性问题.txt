@@ -1,0 +1,14 @@
+：hack表：各种浏览器兼容样式写法
+			三种实现：
+			css属性前缀发：如IE6识别*和_前缀、IE7识别*前缀、IE6~IE10都能识别 \9
+			选择器前缀发:
+			IE条件注释:<!--[if (可加条件，如lt\lte\gt\gte) IE 6]><![endif]-->
+		：浏览器内置样式表差异，如*{margin:0;padding:0}
+		：IE兼容，特别是IE6，如
+			添加float后后面一块被顶到下一行，解决方法：设置display：inline
+			横向margin在IE6中比设置的值大(双倍边距问题):单独设置
+			设置较小高度(如<10px),在IE6、IE7中高度超出设置高度，：设置overflow：hidden或者设置line-height
+			行属性标签设置了block后才有float，又有margin的情况下，IE6边距bug
+			有些浏览器图片默认有间距：用float设置img布局
+			标签最低高度设置min-height不兼容：{min-height:200px;height:auto !important;height:200px;overflow:visible;}
+		最好写一小段代码，都在不同浏览器中查看兼容性，熟练之后就会知道

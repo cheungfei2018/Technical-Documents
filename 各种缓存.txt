@@ -1,0 +1,15 @@
+HTML5缓存：
+	通过创建 cache manifest文件，可以轻松创建web应用的离线版本
+
+应用程序缓存(Application)：引入应用程序缓存，意味着web应用可进行缓存，并可在没有因特网连接时进行访问
+	优势：
+		离线浏览--离线浏览
+		速度--已缓存资源加载速度更快
+		减少服务器负载--浏览器将只从服务器下载更新过或更改过的资源
+		
+浏览器支持：除了IE都支持
+
+启动了cache manifest的html文档：
+	<html manifest="demo.appcache">
+	每个指定了manifest的页面在用户对其访问时都会被缓存，如果未设置，则不会被缓存，除非在manifest文件中直接指定了该页面
+	manifest文件的建议的文件扩展名为：.appcache

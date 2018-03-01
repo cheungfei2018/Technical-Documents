@@ -1,0 +1,186 @@
+<meta>标签：提供有关页面的元信息(meta-information)
+	如正对搜索引擎和更新频度的描述和关键词
+	
+<meta>标签位于文档的<head>头部，不好喊任何内容，<meta>标签的属性定义了与文档相关联的名称/值对；元数据总是以名称/值的形式被成对传递
+	
+	XHTML中，<meta />必须被正确关闭
+	
+<meta>属性：
+	必须属性：
+		content：定义与http-equiv和name属性相关的元信息
+	可选属性：
+		http-equiv：把content属性关联到HTTP头部
+		name：把content属性关联到一个名称
+		charset：定义文档的字符编码，值为编码类型，HTML5新属性
+		
+属性：
+content：属性提供了名称/值对中的值。该值可以是任何有效的字符串
+
+http-equiv：http-equiv属性为名称/值对提供了名称。并指示服务器在发送实际的文档之前先在要传送给浏览器的MIME文档头部包含名称/值对
+	1.content-type：规定文档的字符编码，如：
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		tip:字符编码：
+			GB2312：简体中文
+			BIG5：繁体中文
+			UTF-8：世界通用语言
+			ISO-8895-1：英文
+			ks_c_5601：韩文
+			ISO-2022-jp：日文
+	2.expires：设置网页缓存到期时间
+		<meta http-equiv="expires" content="Fri,12Jan200118:18:18GMT" />
+	3.pragma：禁止浏览器从本地计算机缓存中访问页面内容：
+		<meta http-equiv="pragma"content="no-cache">
+	4.refresh：自动刷新页面并指向新的页面
+		<meta http-equiv="Refresh" content="2;URL=http://www.haorooms.com">
+	5.set-cookie(cookie设定)
+		如果网页过期，那么存盘的cookie将被删除：
+		<meta http-equiv="Set-Cookie" content="cookie value=xxx;expires=Friday,12-Jan-200118:18:18GMT；path=/">
+		tip：必须使用GMT时间
+	6.window-target)(显示窗口的设定)
+		强制页面在当前窗口以独立页面显示
+		<meta http-equiv="Window-target"content="_top">
+	7.content-Language(显示语言的设定)
+		<meta http-equiv="Content-Language" content="zh-cn"/> 
+	8.cache-control:指定请求和响应遵循的缓存机制
+		在请求消息或响应消息中设置cache-control并不会修改另一个消息处理过程中的缓存处理过程
+		请求的缓存指令：
+			no-cache、no-store、max-age、max-stale、min-fresh、only-if-cached
+			
+		响应的缓存指令：
+			no-cache、no-store、max-age、public、private、no-transform、must-revalidate、proxy-revalidate
+		指令含义：
+		public：指示响应可悲任何缓存区缓存
+		private：指令对于单个用户的整个或部分响应消息，不能被共享缓存处理，这允许服务器仅仅描述当用户的部分响应消息，此响应消息对于其他用户的请求无效
+		no-cache：指示请求或响应不能缓存
+		no-store：用于放置重要信息被无意的发布，在请求消息中发送将使得请求和响应都不适用缓存
+		max-age：指示客户机可以接受生存期不大于指定(单位秒)的响应
+		min-fresh：指示客户机可以接收响应时间小于当前时间加上指定时间的响应
+		max-stale：指示客户机可以接收超出超时期间的响应消息，如果指定max-stale消息的值，那么客户机可以接收超出超时期指定值之内的响应消息
+	9.imagetoolbar:指定是否显示图片工具栏
+		如果为false表示不显示，true表示显示
+		<meta http-equiv="imagetoolbar" content="false"/>
+	10.content-Script-Type：W3C网页规范
+		这么页面脚本的类型
+		<Meta http-equiv="Content-Script-Type" Content="text/javascript">
+		
+
+name属性：主要用于描述网页。提供了名称/值对中的名称。HTML和XHTML标签都没有指定任何预先定义的<meta>名称，通常情况下，可以自由使用对自己和源文档的读者来说富有意义的名称
+	1.keywords：规定一个由逗号分割的关键字列表
+		可以告诉搜索引擎网页是与神秘相关的，keywords的content内容要限制在36个字；例子：
+		<meta name="keywords" content="关于meta标签,网页,918之初">
+	2.description：规定页面的描述
+		搜索引擎会吧这个描述显示在搜索结果中，description的content内容要限制在76个字，例子：
+		<meta name="description" content="HTML中<meta>标签如何正确使用">
+	3.author：告诉搜索机器人网页的作者
+		<meta name="author" content="cyb">
+	4.application-name：规定页面所代表的web应用程序名称
+	5.robot:机器人向导，
+		用于告诉机器人哪些页面需要索引，哪些页面不需要索引
+		该属性值：all\none\index\noindex\follow\nofllow
+		默认为all
+		all：文件将被索引，且页面上的链接可以被查询
+		none：文件将不被索引，且页面上的链接不可以被查询
+		index：文件将被索引
+		follow：页面上链接可以被查询
+		noindex：文件将不被索引
+		nofollow：页面上链接不可以被查询
+		例子：
+		<meta name="robot" content="none">
+		
+		
+
+	
+<meta>标签在移动端的使用：
+
+概念：
+	layout viewport:
+		网页的所有内容，它可以全部或者部分展示给用户
+	visual viewport:
+		当前显示给用户内容的窗口，你可以拖动或者放大缩小网页
+
+1.name属性的viewport的值(设置移动端屏幕的缩放)：
+	viewport也就是可视区域，就是除去所有工具栏、状态栏、滚动条之后观看网页的区域。
+	一般可以操控的属性有：
+		width:设置layoutviewport的宽度，是正整数，"width-device"表示设备宽度
+		heigth:设置layoutviewport的高度，不重要，很少用
+		initial-scale:设置页面的初始缩放值，数字，可以带小数
+		minimum-scale:允许用户的最小缩放值，数字，可以带小数
+		maxmum-scale:允许用户的最大缩放值，数字，可以带小数
+		user-scalable:是否允许用户进行缩放，no表示不允许，yes允许
+	例子：
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	上面：强制让文档 与设备的宽度保持1:1；文档的实际比例和最大比例都是1.0；利用user-scalable=no定义用户不可以通过手动缩放，使得页面固定
+	
+2.
+		
+	
+范例：
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<!-- 删除苹果默认的工具栏和菜单栏 -->
+
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<!-- 设置苹果工具栏颜色 -->
+
+<meta name="format-detection" content="telphone=no, email=no" />
+<!-- 忽略页面中的数字识别为电话，忽略email识别 -->
+
+<meta name="renderer" content="webkit">
+<!-- 启用360浏览器的极速模式(webkit) -->
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+<!-- 避免IE使用兼容模式 -->
+
+
+
+<!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
+<meta name="HandheldFriendly" content="true">
+
+<!-- 微软的老式浏览器 -->
+<meta name="MobileOptimized" content="320">
+
+<!-- uc强制竖屏 -->
+<meta name="screen-orientation" content="portrait">
+
+<!-- QQ强制竖屏 -->
+<meta name="x5-orientation" content="portrait">
+
+<!-- UC强制全屏 -->
+<meta name="full-screen" content="yes">
+
+<!-- QQ强制全屏 -->
+<meta name="x5-fullscreen" content="true">
+
+<!-- UC应用模式 -->
+<meta name="browsermode" content="application">
+
+<!-- QQ应用模式 -->
+<meta name="x5-page-mode" content="app">
+
+<!-- windows phone 点击无高光 -->
+<meta name="msapplication-tap-highlight" content="no"> 
+
+
+
+	
+	
+HTML <base />标签：为页面上的所有链接指定默认打开方式
+	如<base target="_self">；默认本页打开
+
+
+
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	

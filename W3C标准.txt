@@ -1,0 +1,158 @@
+W3C标准：万维网联盟标准；指的不是某一个标准，而是一系列标准的集合，网页主要由结构(Structure)、表现(presentation)和行为(Behavior)
+
+W3C标准是国际上的通用标准，符合此标准的网站能使用任何浏览器来浏览
+
+对应的标准也分为三方面：
+	1. 结构化标准语言主要包括XHTML和XML
+	2. 表现标准语言主要包括CSS
+	3. 行为标准主要包括对象模型、ECMAScript等
+	
+	
+如何让网站标准起来，怎么完善现有网站
+
+初级完善：
+	1.为页面添加正确的DOCTYPE(document type的简写)；主要用来说明你用的XHTML或者HTML是什么版本，浏览器会根据你DOCTYPE定义的DTD(文档类型定义)来解释页面代码；XHTML1.0提供了三种DOCTYPE可选择：
+	1.1过渡型(Transitional)
+		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	1.2 严格型(Strict)
+		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	1.3 框架型(Frameset)
+		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+	1.4 上面三种是HTML4.01的声明方式，HTML5中仅规定了一种
+		<!DOCTYPE html>
+		因为HTML5不是基于SGML，所以无需引用DTD
+		
+	初级改善使用过渡型的声明就可以
+	
+	2.设定一个名字空间(namespace)
+		直接在DOCTYPE声明后面添加如下代码：
+		<html XMLns="http://www.w3.org/1999/xhtml" >
+		一个namespace是手机元素类型和属性名字的一个详细的DTD，namespace声明允许你通过一个在线地址指向来识别你的namespace，只要照样输入代码就可以
+		2.1：HTML5中，可以不写xmlns属性；有一个新的属性manifest="url";在这个URL上描述了文档的缓存信息
+		
+	3.声明你的编码语言
+		为了被浏览器正确的解释和通过校验，所有的XHTML文档都必须声明他们所使用的的编程语言；代码：
+		<meta http-equiv="Content-Type" content="text/html; charset=GB2312" />
+		可以把简体中文GB2312改为繁体BIG5或UTF-8
+	
+	4.用小写字母书写所有标签
+		XML对大小写是敏感的，所以XHTML也是区分大小写的，所有的XHTML元素和属性的名字必须使用小写，否则你的文档将被W3C校验认为是无效的
+		
+	5.为图片添加alt属性
+		alt属性指定了当图片不能显示的时候就显示供替换文本，这么做对正常用户可有可无，但对纯文本浏览器和使用屏幕阅读机的用户来说至关重要，只有添加了alt属性，代码才会被W3C正确性校验通过。注意要添加有意义的alt属性内容
+	
+	6.给所有的属性值添加引号，且所有属性都必须有值
+		在HTML中，可以不需要给属性值添加引号，但是在XHTML中，他们必须被加上引号
+		
+	7.必须关闭所有标签
+		在XHTML中，每个打开的标签必须关闭；如果是双标签，必须成对出现，如<p></p>；如果是单标签，必须以/>来关闭自己，如<img/>；而且标签之间不能出现交叉嵌套，要正确的嵌套，如<a><span></span></a>
+
+	8.ID选择器不能重复
+		在一个页面中，同一个ID选择器不能重复使用，如需要重复使用某一个选择器，使用class
+	
+	9.引用外部的css或者js文件需要指定类型
+		如<script text/javascript src="a.js"></script>
+		
+	10.HTML中的特殊字符必须以编码表示
+		如<--&lt;>--&gt;&--&amp;表示
+		<a href="foo.cgi?chapter=1&amp;section=2">正确
+	
+
+中级完善：主要在结构和表现相分离上
+	1.用CSS定义元素外观
+		不要强迫用结构元素实现表现效果，应该使用CSS来确定那些元素的外观
+	
+	2.用结构结构化元素代替无意义的
+		HTML和XHTML元素设计本意是用来表达结构的，在HTML5中有更明显的表现(也就是语义化标签)，如需要写一段列表时，应该使用列表标签，而不是直接在<div></div>中实现所有
+		
+	3.给每个表格或表单加上id
+	4.正确引用CSS样式表
+		一定要放在<head></head>标签内部，且<style type="text/css">一定要加上type
+		
+	5.表格常犯错误
+		表格的宽高等设置一定要css来表现，不要直接通过元素属性设置
+		
+	
+高级完善：行为上
+	当JavaScript不符合W3C标准时，有些特效会失效
+	
+	1.document.body改为document.documentElement
+	
+	
+	
+额外：
+1. 不允许使用target="_blank"来打开新的窗口
+	在HTML4.01可以使用该属性，但是XHTML1.0是不被允许的
+	现在要写成：
+	<a href="document.html" rel="external">
+		打开一个新窗口
+	</a>
+	这符合strict标准，还需要配合下面的js代码才有效
+	function externallinks() { 
+		if (!document.getElementsByTagName) return; 
+		var anchors = document.getElementsByTagName("a"); 
+		for (var i=0; i<anchors.length; i++) { 
+		var anchor = anchors[i]; 
+		if (anchor.getAttribute("href") && 
+		anchor.getAttribute("rel") == "external") 
+		anchor.target = "_blank"; } 
+	} 
+	window.onload = externallinks;
+	然后把它保存成一个.js文件(比如open.js)，再通过外部联接方法调用：
+	<script type="text/javascript" src="external.js"></script>
+	
+2.背景音乐不允许使用bgSound标签
+	虽然不可以直接使用<bgsound>标签，却可以使用JavaScript来解决；js文件代码如下：
+	var MSIE=navigator.userAgent.indexOf("MSIE"); 
+	var NETS=navigator.userAgent.indexOf("Netscape"); 
+	var OPER=navigator.userAgent.indexOf("Opera"); 
+	if((MSIE>-1) || (OPER>-1)) { 
+		document.write("<BGSOUND SRC=背景音乐地址 LOOP=INFINITE>"); 
+	} else { 
+		document.write("<EMBED SRC=背景音乐地址 AUTOSTART=TRUE "); 
+		document.write("HIDDEN=true VOLUME=100 LOOP=TRUE>"); 
+	}
+	
+3.W3C标准规定不允许使用框架标签<iframe>
+	通过JavaScript解决
+	
+4.Google广告代码不符合W3C标准
+	转为js插入
+	
+5.W3C标准朱姐文字不可包含--符号
+	如：<!-index--box-->错误；<!-indexbox-->正确
+	
+		
+需要校验是否符合W3C标准可以到W3C提供的网站校验
+	XHTML校验：http://validator.w3.org/
+		
+		发现错误后这个修改
+	
+		校验方式：网址校验、文件上传校验
+	
+	CSS2校验：http://jigsaw.w3.org/css-validator/
+	
+	校验方式:网址校验、文件上传校验、直接贴入代码校验
+	
+	
+	
+	
+	
+RSS的XML通过时其中的域名地址必须与检测的地址一致，否则会报错
+
+标签的链接属性加上JavaScript事件时必须为#空链，不能为JavaScript:;或JavaScript:void(null)
+
+Flash的标签代码中不能含有，必须采用其他方法实现	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
