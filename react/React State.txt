@@ -1,0 +1,29 @@
+
+React State(状态)
+	React把组件看成是一个状态机(state machines).通过与用户的交互，实现不同状态，然后渲染UI，让用户界面和数据保持一致
+	
+	React中，只需要更新组件的state，然后根据新的state重新渲染用户界面(不要操作DOM)
+	
+	//定义State属性
+	getInitialState(){
+		//getInitialState方法用于定义初始状态
+		//返回一个对象，对象中的属性可以改变
+		return {
+			属性1：属性值1,
+			...
+		}
+	} 
+
+	//修改State属性
+	this.setState({
+		属性1：属性值1,
+		...
+	})
+	this.setState方法可以修改状态值，每次修改后自动调用this.render()方法，再次渲染组件
+	
+	
+	//使用State属性
+	var ab = this.State.属性1;
+	
+	tip：在组件中添加onClick、onChange等事件，与原生HTML不同，on之后的第一个字母需要大写；否则不起作用
+	

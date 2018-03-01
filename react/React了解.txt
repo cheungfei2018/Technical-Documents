@@ -1,6 +1,14 @@
 React：一个用于构建用户界面的JavaScript库
+		是由Facebook开发的一款JS库
+	为了解决MVC无法满足庞大项目的扩展需求
 
+	
+Flux是一个系统架构，用于推进应用中的数据单向流动。React是一个JavaScript框架，用于构建“可预期的”和“声明式的”Web用户界面，它已经使Facebook更快地开发Web应用
+	
+	
 React主要用于构建UI，可以认为是MVC中的V(视图)
+
+
 
 特点：
 	1.声明式设计：采用声明式设计，可以轻松描述应用
@@ -9,3 +17,41 @@ React主要用于构建UI，可以认为是MVC中的V(视图)
 	4.JSX：JSX是JavaScript语法的扩展,React开发不一定使用JSX，但建议使用它
 	5.组件：通过React构建组件，是的代码更加容易得到复用，能够很好的应用在大型项目开发中
 	6.单向响应的数据流：React实现了单向响应的数据流，从而减少了重复代码，这也是它为什么比传统数据绑定更简单的原因
+	React是单向的从数据到视图的渲染，非双向数据绑定
+	
+
+tip：
+	1.React不是一个MVC框架
+	2.React不适用模板
+	3.响应式更新非常简单
+	4.HMTL5仅仅是个开始
+	
+	
+React原理：
+	1.Virtual DOM 虚拟 DOM (使用了diff算法)
+	2.Components组件：在DOM树上的节点成为元素，但在VD中称之为component
+	3.State和Render：
+		State：该属性包含定义组件所需要的一些数据
+		Render：当数据发生改变时，会调用Render重现渲染
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

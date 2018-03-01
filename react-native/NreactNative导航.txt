@@ -47,7 +47,7 @@ StackNavigator导航栏注册API：
 		transitionConfig - 配置页面跳转的动画，覆盖默认的动画效果
 		
 		onTransitionStart - 页面跳转动画即将开始时调用
-		
+	
 		onTransitionEnd - 页面跳转动画一旦完成会马上调用
 
 		
@@ -58,7 +58,6 @@ StackNavigator导航栏注册API：
 		headerTitle - 头部的标题，即页面的标题
 		
 		headerBackTitle - 返回标题，默认为 title
-		
 		headerTruncatedBackTitle--返回标题不能显示时（比如返回标题太长了）显示此标题，默认为 “Back”
 		
 		headerRight - 头部右边组件
@@ -78,9 +77,15 @@ StackNavigator导航栏注册API：
 		
 	
 		
-		
+如何设置StackNavigator导航
+	1.在启动页面注册StackNavigator导航器；将需要导航的页面(组件生成screen)
+	2.在启动页面中实现一个引用导航器的组件，然后启动组件就是该组件；tip:显示页面是第一个screen
+	3.凡是注入了导航器的页面(组件)，独有一个this.props.navigation属性保存着页面相关信息，用于传值、跳转等操作
 	
 	
-安装：
-npm install prop-types
+	
+	
+	
+	
+	
 	

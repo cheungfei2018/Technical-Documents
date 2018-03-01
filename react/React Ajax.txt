@@ -1,0 +1,5 @@
+React 组件的数据可以通过 componentDidMount 方法中的 Ajax 来获取，当从服务端获取数据时可以将数据存储在 state 中，再用 this.setState 方法重新渲染 UI。
+
+当使用异步加载数据时，在组件卸载前使用 componentWillUnmount 来取消未完成的请求。
+
+如在componentDidMount方法中使用jquery进行后台数据请求

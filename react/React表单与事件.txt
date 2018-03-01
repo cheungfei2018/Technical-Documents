@@ -1,0 +1,13 @@
+React支持一种非常特殊的属性Ref，可以用来绑定到render()输出的任何组件上
+
+这个特殊的属性允许你引用render()返回的相应的支撑实例（backing instance）。这样就可以确保在任何时间总是拿到正确的实例
+
+如：
+	<input ref="myInput" />
+	
+然后在其他代码中，可以获得input实例：
+	var input = this.refs.myInput;
+	
+	
+	
+除了 refs 属性之外，还可以使用getDOMNode()方法获取DOM元素
