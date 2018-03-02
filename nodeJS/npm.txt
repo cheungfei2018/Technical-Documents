@@ -51,6 +51,9 @@ NPM：NodeJS的包管理工具，能够解决NodeJS代码部署上的很多问题。
 查看某一模块的版本号：
 	$ npm list grunt
 	
+//查看模块包的所有版本号
+	$ npm view 模块名称 versions
+	
 
 使用package.json：
 package.json位于模块的目录下，用于定义包的属性。

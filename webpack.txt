@@ -6,8 +6,10 @@
 	//安装到项目目录
 	npm install --save-dev webpack
 	
-3.创建package.json文件
-	//在项目根目录下执行
+	
+	
+3.创建一个项目，然后在项目根目录中创建package.json文件
+	//在项目根目录下执行即可生成package.json
 	npm init
 	
 4.文件打包
@@ -16,7 +18,11 @@
 	
 
 
+遇到的问题：
 
+1.如果全局安装新版本的webpack，会提示需要安装webpack-cli；但一直没有调试好，
+	解决：安装以前的版本，这里安装的是1.13.2
+	npm install webpack@1.13.2 -g
 
 
 
