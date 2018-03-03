@@ -2,10 +2,9 @@
 
 2.使用npm安装webpack
 	//全局安装
-	npm install -g webpack
+	npm install -g webpack(@版本)
 	//安装到项目目录
-	npm install --save-dev webpack
-	
+	npm install --save-dev webpack(@版本)
 	
 	
 3.创建一个项目，然后在项目根目录中创建package.json文件
@@ -15,12 +14,209 @@
 4.文件打包
 	//执行命令
 	webpack 需要打包的文件路径 打包的目标文件路径
+	如：
+	webpack app/main.js public/index.js
+	
+	
+5.在js中引用css文件
+	在webpack中本身是不支持js中引用css文件的，需要通过相应的loader
+	
+	1.安装引用允许引用css文件的loader：
+	npm install css-loader style-loader --save-dev
+	
+	2.在引用css文件时需要指定相应的loader
+	require('css-loader!app/style.css');
+	
+	3.让css文件在网页上生效
+	require('style-loader!css-loader!app/style.css');
+	
+	
+	css-loader:使得webpack可以处理css文件
+	style-loader:使得css-loader处理后的css代码插入到style标签中
+
+	
+6.如果每次引用css文件都想上面的写法会很麻烦，所以推荐使用以下方法：
+	1.命令行中使用--module-bind；如：
+	webpack app/main.js public/index.js --module-bind 'css=style-loader!css-loader'
+	解释：上面表示在使用webpack打包时，将css文件引用先交给css-loader处理后再交给style-loader处理然后在打包
+	
+fail:不成功(不知原因)，提示loader类型不对
+	
+	
+7.自动打包：在命令行(添加 --watch 参数)：
+	webpack app/main.js public/index.js --watch
+	之后开发是修改的内容将自动打包
+
+8.其他的一些参数，如：
+	--progress：在命令行中可以出现加载时的进度显示
+	--display-modules:可以显示打包的模块
+	--display-reasons:显示每个模块打包的原因
+
+	
+9.webpack.config.js(webpack配置文件，需要自己创建)：
+	9.1在使用webpack命令时，webpack会在项目根目录中寻找webpack.config.js文件，并且将它作为默认的配置运行，
+	直接运行：
+		webpack
+	即可打包生效
+	
+	9.2也可以在使用webpack命令时使用--config指定其他的配置文件
+	如：配置文件名称为：webpack-dev.config.js
+	则需要如下写：
+		webpack --config webpack-dev.config.js
+	才能生效
+	
+10，定义了配置文件后如果需要在执行命令时添加前面所述的一些脚本，则可以在package.json-》'scripts'属性中添加自定义指令对应的脚本代码，如：
+	"webpack":"webpack --config webpack-dev.config.js --propress --display-modules"
+	
+	然后在命令行中运行：
+	npm run webpack
+	即可
+	
+11.webpack.config.js页面的一些基本配置：
+	//引用插件
+	var htmlWebpackPlugin = require('html-webpack-plugin');
+
+	//自定义的config配置文件
+	//API在官网查找:https://webpack.js.org/configuration/#options
+	//使用commonJS模块化输出方式
+	module.exports = {
+		//entry:设置打包入口文件,第一种方式：字符串，唯一的入口文件
+		// entry:'./src/js/main.js',
+		//entry:设置打包入口文件,第二种方式：数组，设置互不依赖的多个平行入口文件
+		// entry:['./src/js/main.js','./src/js/a.js'],
+		//entry:设置打包入口文件,第三种方式：对象，键值对写法，用于多页面场景中
+		entry:{
+			main:'./src/js/main.js',
+			a:'./src/js/a.js',
+			b:'./src/js/b.js',
+			c:'./src/js/c.js',
+		},
+		//output：设置打包后的文件,是一个对象，包含文件路径和文件名称
+		output: {
+			// path:'./public/js',
+			// filename:'index.js'
+			// 如果多页面场景(entry对象写法时),上面的path和filename写法会覆盖，最终只有一个文件，需要下面写法
+			// 如果entry页面对象多于一个的，需要用占位符来保证输出的文件名称是唯一的，以避免相互覆盖
+			/*
+			* 占位符：
+			*   [name]：每个entry的name值
+			*   [hash]:每次打包的hash值
+			*   [chunkhash]：每个entry的hash值,可以当做文件的版本号或md5值，保证每个文件的唯一性，文件内容有更新才会改变
+			*
+			* */
+			path: './public',
+			// filename:'[name]-[chunkhash].js',
+			filename: 'js/[name].js'
+		},
+		//使用插件
+		plugins:[
+			//生成a.html
+			new htmlWebpackPlugin({
+				//传递一个模板
+				template:'a.html',
+				//根据传递的模板生成的文件
+				filename:'a.html',
+				//生成的js引用放置在什么地方，可选body、head、fales(false表示配置文件中不设置显示，可在模板文件中选择显示)
+				inject:false,
+				//当前模板生成的HTML文件需要引用的js文件引用，来自entry
+				chunks:['main','a'],
+				//下面是自定义的传递的参数，在模板页可以使用htmlWebpackPlugin.options.XXX接收
+				title:'this is a.html',
+				text:'这是 A 页面内容'+new Date()
+				//更多参数参考html-webpack-plugin插件官网，在npm仓库中搜索
+			}),
+			//生成b.html
+			new htmlWebpackPlugin({
+				//传递一个模板
+				template:'index.html',
+				filename:'b.html',
+				inject:false,
+				chunks:['main','b'],
+				title:'this is b.html',
+				text:'这是 B 页面内容'+new Date()
+			}),
+			//生成c.html
+			new htmlWebpackPlugin({
+				//传递一个模板
+				template:'index.html',
+				filename:'c.html',
+				inject:false,
+				chunks:['main','c'],
+				title:'this is c.html',
+				text:'这是 C 页面内容'+new Date()
+			}),
+		]
+	}
+	
+	
+12.html-webpack-plugin插件：自动生成HTML文件
+	安装：
+		npm install html-webpack-plugin --save-dev
+		
+	然后在配置文件webpack.config.js中引用html-webpack-plugin插件
+	var htmlWebpackPlugin = require('html-webpack-plugin');
+	
+	然后在配置对象中增加一个属性plugins:[]
+	module.exports = {
+		entry:{
+		},
+		output:{
+		},
+		plugins:[
+			//初始化插件，可不传参
+			// new htmlWebpackPlugin()
+			//初始化插件，传递对象参数
+			new htmlWebpackPlugin({
+				//传递一个模板，这里为根目录下的index.html,根据上下文环境
+				template:'index.html',
+				//可以指定生成HTML文件的名称，如果没有指定则和template相同
+				filename:'index-[hash].html',
+				//可以规定脚本放在body标签中还是head标签中或false，默认body
+				inject:'head',
+				//选择该生成的HTML文件需要加载的js文件，拿到entry中的属性
+				chunks:['main','a'],
+				//如果js数量较多，而且该HTML需要引用的js众多，可以使用排除
+				//excludeChunks和chunks只能选其一使用
+				excludeChunks:['b','c'],
+				//如果项目上线，对HTML进行压缩,参数很多，可查npm官网插件
+				minify:{
+					//如，删除注释
+					removeComments:true,
+				},
+				//设置参数，然后可以在生成的HTML页面中引用,可自定义参数
+				title:'首页面'
+				text:'这是页面内容',
+				
+			})
+		]
+	}
+	
+	然后生成的index-[hash].html页面中使用：
+	<%= htmlWebpackPlugin.options.title %>
+	<%= htmlWebpackPlugin.options.text %>
+	
+	生成的HTML模板中获取到引用的js的文件引用,如获得main对应的entry中js的路径：
+	htmlWebpackPlugin.files.chunks.main.entry	
+	(tip:这里得到的路径将publicPath也添加了进去)
+	
+	然后在命令行重新运行
+	npm run webpack
+	
+13.生成多个HTML页面
+	因为plugins参数接受的是一个数组，所以如果需要多个页面，
+	只需要生成多个new htmlWebpackPlugin({})即可
+	
+	
+14.优化性能：将初始化脚本直接嵌入页面，而不以链接的形式导入页面
+	解决方法:https://github.com/jantimon/html-webpack-plugin/blob/master/examples/inline/template.jade
+	
 
 
 遇到的问题：
 
 1.如果全局安装新版本的webpack，会提示需要安装webpack-cli；但一直没有调试好，
-	解决：安装以前的版本，这里安装的是1.13.2
+	解决：安装以前的版本。
+	这里安装的是1.13.2
 	npm install webpack@1.13.2 -g
 
 
