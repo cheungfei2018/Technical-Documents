@@ -1,0 +1,25 @@
+
+7.class--类：
+	ES5以前生成实例对象的方法是通过构造函数
+	
+	ES6提供了更接近传统语言的写法，引入了Class类概念；通过关键字class定义类
+	
+	在ES6中的class可以看做一个语法糖，他的绝大部分功能，ES5也可以做到，只是class的写法让对象原型的写法更加清晰，更像面向对象编程的语法；
+	格式：
+		class Point{
+			constructor(x,y){	//构造方法；与ES5中的Point构造函数对应
+				this.x=x;		//this表示实例对象
+				this.y=y;
+			}
+			//不需要使用function关键字；而且方法与方法之间不能用逗号分隔；否则出错
+			//自定义方法：
+			toString(){			
+				return this.x;
+			}
+		}
+		
+	typeof Point	//function;类的数据类型就是function，类本身指向构造函数
+	
+	使用：直接对类使用new命令，与构造函数的用法一致
+
+		

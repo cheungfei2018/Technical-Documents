@@ -36,11 +36,30 @@
 
 	
 6.如果每次引用css文件都想上面的写法会很麻烦，所以推荐使用以下方法：
-	1.命令行中使用--module-bind；如：
+	6.1.命令行中使用--module-bind；如：
 	webpack app/main.js public/index.js --module-bind 'css=style-loader!css-loader'
 	解释：上面表示在使用webpack打包时，将css文件引用先交给css-loader处理后再交给style-loader处理然后在打包
-	
-fail:不成功(不知原因)，提示loader类型不对
+		fail:不成功(不知原因)，提示loader类型不对
+	6.2：在webpack.config.js中配置：
+		module: {
+			rules: [
+			  {
+				test: /\.css$/,
+				use: [ 'style-loader', 'css-loader' ]
+			  }
+			]
+		}
+		或
+		module: {
+			rules: [
+				{
+					test: /\.css$/,
+					loader: "style-loader!css-loader"
+				}
+			]
+		}
+		fail:不成功(不知原因)，提示loader类型不对
+
 	
 	
 7.自动打包：在命令行(添加 --watch 参数)：
@@ -197,7 +216,7 @@ fail:不成功(不知原因)，提示loader类型不对
 	
 	生成的HTML模板中获取到引用的js的文件引用,如获得main对应的entry中js的路径：
 	htmlWebpackPlugin.files.chunks.main.entry	
-	(tip:这里得到的路径将publicPath也添加了进去)
+	(tip:这里得到的路径将publicPath也添加了进去(如果填写了publicPath的话))
 	
 	然后在命令行重新运行
 	npm run webpack
@@ -210,6 +229,82 @@ fail:不成功(不知原因)，提示loader类型不对
 14.优化性能：将初始化脚本直接嵌入页面，而不以链接的形式导入页面
 	解决方法:https://github.com/jantimon/html-webpack-plugin/blob/master/examples/inline/template.jade
 	
+	头部<script>内的代码：
+	<%= compilation.assets[htmlWebpackPlugin.files.chunks.main.entry.substr(htmlWebpackPlugin.files.publicPath.length)].source() %>
+	
+
+15.loader的使用有三种方式：
+	15.1 在对应的代码文件引用中使用
+	15.2 在CLI命令行中使用
+	15.3 在配置文件webpack.config.js中定义
+	
+16.webpack项目安装babel进行es6代码转换
+	1.安装babel模块：
+		npm install babel-loader babel-core --save-dev
+	2.配置babel
+		2.1在配置文件webpack.config.js中配置：
+			//loader配置
+			module:{
+				loaders:[
+					{
+						test:/\.js$/,
+						loader:'babel-loader',(或loader:'babel',)
+					}
+				]
+			},
+		2.2.通过上面已经配置好了babel，但还未真正生效，需要配置presets，配置之前要先安装
+			npm install babel-preset-env --save-dev
+			tip:这里使用的是env版本，所以上面是babel-preset-env
+			
+		2.3配置presets(相当于特性版本)，下面四种方式配置：
+			2.3.1. 在require请求后添加: ?参数=值，如：
+				require("babel-loader?presets=env")
+			2.3.2. 在2.1的loaders数组项后面添加一个query参数,如：
+				module:{
+					loaders:[
+						{
+							test:/\.js$/,
+							loader:'babel-loader',(或loader:'babel',)
+							query:{
+								presets:["env"]
+							}
+						}
+					]
+				},(测试时使用loaders没成功，这是webpack1的写法)
+				或
+				module:{
+					rules:[
+						{
+							test:/\.js$/,
+							loader:'babel-loader',(或loader:'babel',)
+							query:{
+								presets:["env"]
+							}
+						}
+					]
+				},(测试时使用rules成功，这是webpack2的写法，推荐使用)
+				
+				tip:loaders或rules数组中的对象元素属性：
+					test:匹配规则，如上面的js文件匹配
+					loader:使用的loader
+					loaders:串联loader数组
+					exclude:排除的不转换的文件/文件夹(绝对路径)
+					include:包含的需要转换的文件/文件夹
+				
+			2.3.3. 在package.json文件中配置
+			{
+				//对象中添加"babel"属性
+				"babel":{
+					"presets":["env"]
+				}
+			}
+			2.3.4. 根据babel官方文档，在项目根目录中创建 .babelrc 配置文件
+				文件内容只有一个对象和一个属性
+				{
+					"presets":["env"]
+				}
+			
+
 
 
 遇到的问题：

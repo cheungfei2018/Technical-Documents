@@ -1,0 +1,17 @@
+3.函数：
+	函数的默认参数：
+	function fun(num = 100){}	//这种是ES6的写法，不过通用与ES5之前的版本
+	function fun(num){num = num || 200;}	//ES5的默认参数
+	
+	箭头函数：函数的快捷写法
+	箭头函数最直观的特点：
+		1.不需要function关键字创建函数
+		2.省略return关键字
+		3.继承当前上下文的this关键字
+		
+		格式：var functionName = (param1,param2...) =>{
+			//函数代码块
+		}
+		tip：当函数有且仅有一个参数时，可以省略掉括号，当函数返回有且仅有一个表达式时可以省略{}；如下：
+		var peo = name => "hello"+name;
+		其中 peo 是箭头函数的函数名；name 是箭头函数的参数；"hello"+name是返回值
