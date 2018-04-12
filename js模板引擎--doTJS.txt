@@ -1,0 +1,72 @@
+JavaScript模板引擎：doTjs
+
+官网：
+http://olado.github.io
+
+
+浏览器环境：
+	直接引用doT.js或doT.min.js
+
+格式：
+	1.HTML容器：
+		<div id="interpolation">
+			
+		</div>
+	2.doTJS模板内容，写在script内部，注意type和id，内部可写HTML代码：
+		<!--script标签中是模板的内容-->
+		<script type="text/template" id="text">
+			<div>Hi {{=it.name}}</div>
+			<div>age is {{=it.age}}</div>
+		</script>		
+	3.生成数据对象data
+	4.将doTJS模板内容编译出来然后放入HTML容器中，使用doT.template(模板内容)(数据对象)方法完成：
+		var text = document.getElementById("text").innerHTML;
+		//将模板内容和模板数据编译成HTML放入到模板容器中
+		document.getElementById("interpolation").innerHTML = doT.template(text)(data);
+	
+语法：
+	{{js语句}}：模板标签，可以将js逻辑写在内部，
+		如for循环，格式：
+		{{ for (var key in data) { }} 
+			{{= key }} 
+		{{ } }}
+	
+	{{= 要输出的内容 }}：内容插入标签，输出显示
+	
+	{{? js条件语句}}：条件语句标签，格式：
+		{{? (if)}}
+			//
+		{{?? (else if/else)}}
+			//
+		{{?? (else if/else)}}
+			//
+		{{? (结束)}}
+	
+	
+	{{~ }}：数组循环，格式：
+		{{~array:value:index}}
+			=>array:数组;value:数组值;index:数组下标
+		{{~ }}
+	
+	
+	{{! }}：编码后输出显示(需加深理解)
+	
+	{{# }}和{{##  #}}：不懂
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

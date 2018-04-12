@@ -1,0 +1,95 @@
+Promise：是异步变成的一种解决方案，比传统的解决方案(回调函数和事件)更加合理、强大
+
+Promise是一个对象(容器)：保存着某个未来才会结束的事件的结果(如异步操作)，可以从中获取到异步操作的信息；然后通过Promise提供的统一API，各种异步操作度可以使用同样的方法进行处理。
+
+
+Promise特点：
+	1.对象的状态不受外界影响，三种状态(pending-进行中、fulfiled-已成功、rejected-已失败)；只有异步操作的结果可以决定当前是在哪种状态；
+	
+	2.一旦状态改变，就不会再变；Promise的状态改变只有两种可能：
+		①从pending ---》fulfilled
+		②从pending ---》rejected
+	只要上面两种情况发生了改变，状态就会凝固
+	
+
+有了Promise对象；可以将异步操作已同步的流程表达出来，避免了层层嵌套的回调函数，Promise对象提供统一的API
+
+缺点：
+	1.无法取消Promise，一旦新建就会立即执行，无法中途取消
+	2.如不设置回调函数，Promise内部抛出错误且不会反应到外部
+	3.当在pending状态时，无法得知目前进展到那个阶段(刚开始还是即将完成？)
+	
+	
+用法：
+	Promise对象是一个构造函数，用来生成Promise实例
+	
+	基本格式：
+	const promiseObj = new Promise(function(resolve,reject){
+		//构造函数的参数是一个函数
+		//该函数包含两个函数参数resolve(成功时)和reject(失败时),有js引擎提供，不用自己不熟
+		if (/* 异步操作成功 */){
+			resolve(value);
+		  } else {
+			reject(error);
+		  }
+	});
+	
+	//promise实例生成以后，可以用then方法指定resolved状态和rejected状态的回调函数；then方法的参数是两个与resolve和reject对应的函数，第一个回调函数是Promise对象的状态改变为resolved状态时调用，第二个回调函数是Promise对象的状态改变为rejected状态时调用；其中第二个函数可选
+	promiseObj.then(
+		function(){
+			//成功时的函数
+		},
+		function(){
+			//失败时的函数，可选
+		}
+	);
+	
+	
+Promise实例具有then方法，即then方法是定义在原型对象Promise.prototype上的；作用是为Promise实例添加状态改变时的回调函数，也就是上面中的两个函数
+	可以对promise对象进行链式操作：
+	promiseObj.then(
+		function(){
+			//成功时的函数
+		},
+		function(){
+			//失败时的函数，可选
+		}
+	).then(
+		function(){
+			//成功时的函数
+		},
+		function(){
+			//失败时的函数，可选
+		}
+	);
+	
+Promise.prototype.catch方法是.then(null,rejection)的别名，一般用于指定发生错误时的回调函数
+	promiseObj.then(
+		function(){
+			//成功时的函数
+		}
+	).catch(
+		function(){
+			//失败时的函数
+		}
+	);
+	
+	
+一般不要再then方法中定义为reject状态的回调函数，而是使用catch方法接收错误；因为catch可以捕获到then方法执行中的错误，更加接近同步的写法(try/catch);如果没有使用catch指定错误处理的回调函数，Promise对象跑出的错误不会传递到外层代码，即不会有任何反应
+
+
+Promise.prototype.finally():用于指定不管Promise对象最后状态如何，都会执行的操作，该方法在ES2018引入标准
+
+finally()方法的回调函数不接受任何参数，所以没办法知道前面的Promise是resolved还是rejected；即finally方法中的操作，与状态无关，不依赖于Promise的执行结果
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

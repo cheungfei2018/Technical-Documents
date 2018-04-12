@@ -42,6 +42,11 @@ NPM：NodeJS的包管理工具，能够解决NodeJS代码部署上的很多问题。
 	2.1将安装包放在/user/local下或者在你的node的安装目录
 	2.2可以直接在命令行中使用
 	
+	3.添加到依赖列表安装：
+		npm install express --save
+	
+	tip:node使用npm安装模块时，如果指定了--save参数，那么此模块将被添加到package.json文件中dependencies依赖列表中，然后通过npm install命令即可自动安装列表中所列出的所有模块
+	
 如果希望同时具备两种功能，则需要在两个地方都安装或者使用npm link命令
 
 

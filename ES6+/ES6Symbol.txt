@@ -1,0 +1,39 @@
+Symbol：是ES6引入的一种新的原始数据类型，是js的第七种数据类型
+	表示独一无二的值，类似于id
+	数据类型：
+	Number、String、Object、Boolean、null、undefined、Symbol
+	
+Symbol值通过Symbol函数生成；凡是属于Symbol类型的变量名或属性名都是独一无二的
+	tip：Symbol函数前面不能使用 new 命令，因为是原始值不是对象
+
+格式：
+	let s = Symbol('字符串描述');
+	tip：如果函数参数为对象，则会转换为字符串后生成Symbol值
+	
+注意：symbol函数参数只是表示当前symbol值的描述，所以相同参数的symbol哈数的返回值是不相等的；
+
+Symbol值不能与其他类型的值进行运算，会报错
+Symbol值可以转换为字符串或转换为布尔值，但不能转换为数值
+
+
+Symbol作为属性名，该属性不会出现在for...in、for...of循环中，也不会被Object.keys()、Object.getOwnPropertyNames()、JSON.stringify()返回。但是，它也不是私有属性，
+
+有一个Object.getOwnPropertySymbols方法，可以获取指定对象的所有 Symbol 属性名。返回的是一个数组，包含所有用作属性的Symbol值
+
+也可以使用新的API Reflect.ownKeys()方法获得对象的常规Symbol键名
+
+
+可以根据Symbol作为属性名称不会被常规方法遍历得到的特性，为对象定义一些非私有的，但又希望只用于内部的方法
+
+
+
+
+
+
+
+
+
+
+
+
+

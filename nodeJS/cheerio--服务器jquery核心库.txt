@@ -1,0 +1,49 @@
+
+cheerio:为服务器设计的核心jQuery的快速、灵活和精益实现
+(Fast, flexible & lean implementation of core jQuery designed specifically for the server)
+
+
+cheerio通常在服务器中环境中使用，如nodejs
+
+与jQuery的区别：
+	jQuery通过操作HTML文档中的dom对象实现操作，加载HTML是隐式的。因为jQuery是在一个被使用的DOM中操作的
+	cheerio通过操作HTML文档中的dom对象实现操作，加载HTML是显式的，必须通过load方法传递HTML文档
+	
+	
+但是cheerio和jQuery的操作接口基本一样
+
+cheerio 安装和引用：
+	通过npm安装到NodeJS项目中
+		npm install cheerio
+	项目中引用
+		const cheerio = require('cheerio');
+		
+
+cheerio操作：可参照jquery
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

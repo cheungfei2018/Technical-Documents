@@ -1,0 +1,40 @@
+querystring模块
+
+引入：
+const querystring = require('querystring');
+
+querystring.stringify(prame1,prame2,prame3,prame4):序列化对象成字符串
+	prame1:Object，必须，需要进行序列化的对象
+	prame2:string，可选，每个属性之间的界定符号，默认‘&’
+	prame3:string，可选，属性的键与值之间的界定符号，默认为‘=’
+	prame4:function,该函数的回调函数，默认是querystring.escape(prame)
+
+	
+	
+querystring.parse(prame1,prame2,prame3,prame4):将字符串反序列化为对象
+	prame1:Object，必须，需要进行反序列化的字符串
+	prame2:string，可选，字符串中分隔属性对的定界符号，默认‘&’
+	prame3:string，可选，字符串中要分割的属性对的键与值之间的定界符号，默认为‘=’
+	prame4:function,该函数的回调函数，默认是querystring.unescape()
+
+	
+	
+querystring.escape(prame):对字符串进行url编码转义处理
+	prame:string,必须，需要进行url编码的字符串
+
+	
+querystring.unescape(prame):对已url编码转义处理的字符串反转义
+	prame:string,必须，需要进行反编码的字符串
+
+
+
+
+
+
+
+
+
+
+
+
+

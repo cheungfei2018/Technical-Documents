@@ -1,0 +1,10 @@
+Bluebird是一个功能齐全的承诺库，专注于创新特性和性能。
+
+其他promise库：
+	Q
+	then.js
+	es6-promise
+	ypromise
+	async
+	native-promise-only
+	

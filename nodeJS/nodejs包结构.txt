@@ -1,0 +1,71 @@
+NodeJS包：实际上是一个存档文档，即将一个npm插件/库/目录打包为.zip或tar.gz格式的文件，安装后解压还原为目录。
+
+完全符合CommonJS规范的包目录应该包含如下文件：
+	package.js：包的描述文件
+	bin/：用于存放可执行的二进制文件的目录
+	lib/：用于存放JavaScript代码的目录
+	doc/：用于存放文档的目录
+	test/：用于存放单元测试用例的代码
+	
+
+package.json和NPM：
+	是一个json格式的文件，用于表达非代码相关的信息。位于根目录下。
+	NPM的所有行为都与包描述文件的字段息息相关。
+	
+	CommonJS为package.json文件定义了如下必须的字段：
+	
+	name：包名，小写字母、数字、可包含._-；但不能有空格，而且包名必须唯一。
+	description：包的间接
+	version：版本号，语义化的版本号。
+			通常格式：major.minor.revision；且经常带有下面两种标记：
+		~：表示会匹配最近的小版本依赖包，如~1.2.3会匹配所有的1.2.x版本
+		^：表示会匹配最新的大版本依赖包，如^1.2.3会匹配所有的1.x.x版本
+	keywords：关键词数组，用于在NPM中分类搜索
+	maintainers：包维护者列表。每个维护者由name、web、email三个属性组成。NPM通过该属性进行权限认证。
+	contributors：贡献者列表，格式与维护者列表相同
+	bugs：一个可以反馈bug的网页地址或邮件地址
+	licenses：当前包所使用的许可证列表，表示包可以在哪些许可证下使用
+	repositories：托管源代码的位置列表，表示可通过哪些地址访问包源码
+	dependencies：使用当前包所需要依赖的包列表。很重要，NPM会通过这个属性帮助自动加载依赖的包。
+	homepage:当前包的网站地址
+	os：操作系统支持列表
+	cpu：cup架构的支持列表
+	engine：支持的JavaScript引擎列表
+	builtin：标志当前包是否是内件在底层系统的标准组件
+	directories：包目录说明
+	implement：实现规范的列表，标志当前包实现了CommonJS的哪些规范
+	scripts：脚本说明对象，主要被包管理器用来安装、编译、测试和卸载包；示例：
+		'scripts':{
+			"install":"install.js",
+			"uninstall":"uninstall.js",
+			"build":"build.js",
+			"doc":"make-doc.js",
+			"test":"test.js"
+		}
+	
+	
+包规范的定义可以帮助Node解决依赖包安装的问题。NPM正是基于该规范的实现；NPM与包规范的区别，在于多了下面4个字段：
+	author：包作者
+	bin：如果希望包可以作为命令行工具使用，配置好bin字段后，通过全局安装命令（-g）可以将脚本添加到执行路径中，之后可以在命令行中直接执行。
+	main：模块引入方法require()在引入包时，会优先检查该字段。并将其作为包其他模块的入口，如果该字段不存在，则会查找目录下的index.js、index.node、index.json文件作为默认入口
+	devdependencies：一些模块只在开发时需要依赖，配置这个属性可以提示包的后续开发者安装依赖包
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

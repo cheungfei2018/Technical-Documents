@@ -1,0 +1,16 @@
+url模块常用的方法
+
+引入：
+const url = require('url');
+
+url.parse(prame1,prame2,prame3):用于解析url路径成一个对象
+	prame1:String，必须，要解析的路径字符串
+	prame2:Boolean，可选，为true时，query的参数以对象形式显示，否则为字符串，默认false
+	prame3:Boolean，可选，为true时，比知道协议(https/http)的情况下，可以正确解析出host属性，否则无法正确解析host，默认false
+
+url.format(urlObject):将合法的url对象解析成url路径字符串，与上面相反
+	urlObject:Object，必须，正确的url对象
+
+url.resolve(urlString1,urlString2):拼接路径
+	urlString1：基本路径
+	urlString2：附加路径
