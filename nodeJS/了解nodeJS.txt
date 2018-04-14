@@ -39,6 +39,30 @@ Node.js是一个JavaScript运行环境(runtime);实质是对Chrome V8引擎进行了封装。
 		2.构造函数中this指向当前实例化对象
 		3.普通函数或环境中this指向顶层的全局对象；浏览器环境指向window对象，NodeJS环境指向global对象
 	
+	
+node.js vs PHP
+	优点
+		性能高(机制问题)
+		开发效率高(优化方面)
+		应用范围广(可以开发桌面系统，electron框架)
+	缺点
+		新、人少
+		中间件少
+		IDE不完善
+		
+nodejs劣势和解决方案
+	1.默认不支持多核，用cluster可以解决
+	2.默认不支持服务器集群，node-http-proxy可以解决
+	3.使用nginx做负载均衡，今天静态的由nginx处理，动态的有NodeJS处理
+	4.forever或node-cluster实现灾难恢复
+	
+	
+热门框架：
+	express
+	koa
+	hapi（复杂）
+	基于express的sails
+	
 
 
 
