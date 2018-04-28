@@ -1,0 +1,32 @@
+mysql支持：用于nodejs操作数据库
+
+
+//第三方库
+
+//安装
+	npm install mysql
+	
+//导入
+	const mysql = require('mysql');
+	
+	
+	
+	
+	
+	
+	
+	
+	
+连接池：可以看做一个连接数组
+
+安装：
+	npm install mysql
+	npm install -g node-mysql	//全局安装node.js的mysqlpool(连接池)模块
+	
+
+	
+	
+	
+
+
+

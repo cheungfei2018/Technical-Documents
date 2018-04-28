@@ -1,0 +1,187 @@
+类
+关键字：class
+格式：
+	class MyClass{
+		constructor(){
+			//构造方法
+			//类属性
+		}
+		
+		//类方法
+	}
+	
+constructor方法：
+	类的默认方法；通过new生成类的对象实例时，自动调用该方法，一个类中必须有constructor方法，如果没有显式定义，会默认添加一个空的constructor方法。
+	
+	constructor方法默认返回实例对象(this)，也可以完全指定返回另一个对象
+	
+	
+es6中，类可以看做是构造函数的另一种写法
+
+	MyClass === MyClass.prototype.constructor	//true
+	即：类的数据类型就是函数，而且类本身指向构造函数
+	
+	类的方法的定义都是在prototype对象上，所以给类添加新方法可以添加在prototype对象上；如使用Object.assign()可以很方便地一次向类添加多个方法
+	
+
+实例化类：
+	var a = new MyClass();
+	tip:类必须使用new关键字调用，否则报错；这点和普通构造函数不同
+
+	
+类中所有定义的方法，都是不可枚举的(es5构造函数中可以)；
+	即：
+	MyClass.prototype---无法获取到类的方法
+	使用下面函数则可以获得：
+	MyClass.getOwnPropertyNames(MyClass.prototype);
+	
+	
+类的属性名可以采用表达式
+
+
+类和模块内部，默认为严格模式，所以不需要使用
+	use strict 指定允许模式
+	
+	
+类中，实例的属性除非是定义在其本身(this对象)上，否则都是定义在原型(property)对象上
+
+类的所有实例共享一个原型对象
+
+
+和函数一样，类可以使用表达式的形式定义：
+	const Myclass = class Me {
+		//类内部
+	}
+	
+tip:上面类的名字是Myclass，而不是Me,Me只在class的内部代码中可用，代指当前类；即在class内部，Me才有定义；如果内部没有用到Me,可以省略为下面形式：
+	const Myclass = class {
+		//类内部
+	}
+
+如果使用了表达式的形式，可以写出立即执行的class：
+	let person = new class{
+		constructor(name) {
+			this.name = name;
+		}
+		sayName() {
+			console.log(this.name);
+		}
+	}('cyb');	//相当于实例化了类且生成实例对象person
+	person.sayname();	//'cyb'
+
+
+tip:类不存在变量提升；必须先定义类，才能使用，因为有继承关系，必须保证子类在父类之后
+
+
+类的私有方法：
+	es6不提供私有方法，所以需要通过变通方法模拟实现。
+	1.在命名上加以区别：
+		私有方法名字前面添加下划线，不保险
+	2.将私有方法移除模块，因为模块内所有方法对外可见
+		通过call()或apply()改变this指向来实现私有
+	3.利用Symbol值的唯一性，将私有方法命名为Symbol值。
+	4.和私有属性一样，使用#来定义私有方法
+	
+类的私有属性：
+	es6同样不支持私有属性，
+	1.在私有属性名之前使用#表示，如#x
+		#x表示类的私有属性x，在类外部读取不到该属性，而且私有属性和实例的属性可以同名
+		私有属性可以指定初始值，在构造函数执行是进行初始化
+	
+	
+class 的name属性:返回紧跟在class关键字后面的类名
+	如：MyClass.name ===MyClass
+
+	
+和es5一样，在类内部可以使用get和set关键字，对某个熟悉设置存值函数和取值函数，用于拦截该属性的存取行为
+	class MyClass{
+		constructor(){
+			//...
+			this._prop;
+		}
+		get prop(){
+			return this._prop;
+		}
+		set prop(val){
+			this._prop = val;
+		}
+	}
+	let me =new MyClass();
+	//设置值：
+	me.prop = 1;
+	//取值；
+	me.prop;	// 1
+	
+	
+	
+class中的Generator方法：
+	某个方法前加上星号(*),就表示是一个Generator函数
+	
+
+
+class的静态方法：static关键字
+	在类中一个方法前面加上static关键字，表示该方法不会被实例继承，而是通过类来调用(使用.操作符)
+	如果在类实例中调用会抛出一个错误表示不存在该方法；在静态方法中包含的this关键字，指向的是类本身，而非实例。
+	静态方法可以喝非静态方法重名
+	父类的静态方法，可以被子类继承。
+	静态方法也可以从super对象上调用
+	
+
+class的静态属性和实例属性
+	静态属性指class本身的属性，即Class.propName，而不是定义在实例对象(this)上的属性
+	//定义静态属性：
+	class MyClass{
+		//写法1
+		prop:2;	//无效
+		
+		//写法2
+		static prop:2;	//无效
+	}
+	//写法3
+	MyClass.prop=2;	//静态属性，唯一写法
+	
+ES6明确规定，Class内部只有静态方法，没有静态属性
+	
+	关于类属性的提案：
+		1.类的实例属性：可以用等式(=)写入类的定义中，以前只能写在类的constructor方法中(需要用this指定属性)，现在不需要使用this
+		2.类的静态属性，在上面的属性前面添加static关键字。
+	
+	tip:经测试，上面这种类属性提案还不能使用
+
+
+
+
+new.target属性：一般用在构造函数之中
+	作用：用于判断构造函数是否通过new关键字调用的。
+	如果构造函数不是通过new命令调用的，new.target返回undefined。
+	
+	在class中使用new.target，返回当前Class；
+	当子类继承父类时，new.target返回的是子类
+	利用这个特点：可以写出不能独立使用，必须继承后才能使用的类(父类相当于抽象类或接口)--在父类中规定new.target !==父类即可
+	
+	在函数外部使用new.target会报错
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

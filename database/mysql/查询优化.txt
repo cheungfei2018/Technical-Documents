@@ -1,0 +1,101 @@
+查询优化
+注意：
+1.	任何sql 语句的where 条件，都必须涉及到索引，而且最好是主键
+2.	注意查询语句中的一些关键字‘=and’‘<>or like in’‘!= not in not like’，因为越往后的涉及行数就会越多
+3.	尽量避免使用leftjoin(关联查询)、group by等关键字
+4.	在复杂的查询语句中，速度取决于最慢的一条
+5.	涉及到group by、 order by 的字段必须设置索引
+6.	（mysql）设置的查询条件，必须先排筛选条件多的字段，一次往后
+7.	越简单的语句效率越高，复杂的可以写成几条简单的
+
+
+Explain:分析查询语句效率
+例：explain select * from ecs_goods where goods_id = 1
+Select_type：查询类型
+1.	SIMPLE：最简单的查询语句，最常见，大部分有效率的语句，类型都是SIMPLE
+2.	PRIMARY：查询的数据表是一个动态表，数据表有一条sql语句生成的结果集构建出的临时表，该表无法使用索引，
+例lain select * from (select * from ecs_goods)p where goods_id = 1，通过p得到结果集来查询，那p就是动态表
+3.	UNION，
+
+Type：查询类型，包括语句使用索引的情况
+1.	system：理论上最快的，使用了主键，全表只有一行
+2.	const：在实践中最快的类型，使用了主键索引，而且返回的行数只有一行
+3.	eq_ref：使用了唯一索引，而且返回一行
+4.	ref：使用了普通索引，返回少数行（where条件使用的是 = and 等关键字），但最终还要看row的数量
+5.	ref_or_null：同上，但字段允许为空
+6.	unique_subquery
+7.	range：范围搜索，使用了索引，返回行数不高的情况下可以使用
+8.	all：全表搜索，并且没有用到索引
+9.	index：基本同上，但是或许有用到索引
+
+
+key（索引）与possible_key（可能（或可以）用到的索引）
+
+key_len：索引涉及字段（组合）每行的长度（大小）
+
+rows：sql语句查询的行数，该数字越少表示语句越有效率
+
+extra：在查询中格外使用的工具或状态(有好有不好)
+1. Using index：仅使用索引完成，没有使用实体表，效率极高
+2. Using where：使用条件（where，limit）限制了返回条数
+3.Using filesort：必须优化，表示在查询中使用了数据库的排序工具，效率极差，通过出现在排序的字段没有使用索引
+4.Using temporary：必须优化，语句运行使用了临时表，通常出现在关联查询的排序中，并且很多时候和Using filesort一起出现，有时会出现在group by中
+
+
+
+Group by语句---查询组合有多少条
+1.	在sql中，group by必须卸载select的字段中，而且要对应好，不要加上多余字段
+2.	group by的字段可以有多个，吧字段组合的所有全部输出
+3.	having与where，在一般情况下，where与having可以互动，但是having还可以实现对group by的约束；
+例：select user_pwd,count(user_pwd) from user GROUP BY user_pwd having user_pwd = 'h'
+4.	group by很多功能可以让php实现
+
+
+
+数据库的其他优化
+1.	尽量不要使用rand()，curdata()等数据库子弹函数，因为即使得到的值是一样的，但是sql不会缓存相关语句的结果
+2.	对于涉及行数过多的sql语句，可以使用limit关键字限制行数，因为行数越小，查询越快，而且过多行数并没有什么实际应用意义
+3.	不要使用order by rand()，能在php实现的效果，不要放在Mysql中作，如array_rand让数据随机排
+4.	避免使用select * ，会出现搜索出多余字段的情况，影响效率，只写上需要的字段，但会影响程序灵活性
+5.	把ip地址保存为数字，使用方法ip2long及long2ip，该数字需要保存负数
+6.	垂直分割：分表，防止数据冗余
+7.	水平分割：数据表数据量越大，查询就越慢，因此可以把一些数据量非常大的数据，通过一些规则(例如是学号的开头)，变成N个表保存
+8.	拆分复杂语句，宁愿拆分几句来写
+9.	不要使用永久链接
+
+
+
+
+
+
+
+
+
+
+学生表
+Stu
+Id
+011
+023
+025
+135
+339
+469
+
+
+水平分割
+Stu_0,只保存学号开头是0的
+Id
+011
+023
+025
+
+Stu_1
+135
+
+Stu_3
+339
+
+Stu_4
+469
+

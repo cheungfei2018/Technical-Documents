@@ -3,24 +3,36 @@ HTTP模块
 引入模块
 const http = require('http');
 
+//http模块中的API
+	类：
+	1.http.Agent类(代理器类)
+	2.http.ClientRequest类(客户端请求类)
+	3.http.Server类(服务器端类)
+		该类继承自 net.Server
+	4.http.ServerResponse类(服务器端响应类)
+	5.http.IncomingMessage类(输入报文类)
+	
+	属性：
+	1.http.METHODS属性
+		返回解析器支持的HTTP方法的列表
+	2.http.STATUS_CODES属性
+		返回标准的HTTP响应状态码的集合及其简短描述。
+	3.http.globalAgent
+		Agent的全局实例，作为所有HTTP客户端请求的默认Agent
+	
+	方法：
+	1.http.createServer([requestListener])
+		返回一个新建的http.server实例,requestListener是一个函数，会自动添加到request事件
+	2.http.get(options[,callback])
+		返回: <http.ClientRequest>，与下面request()的区别在于设置了请求方法
+	3.http.request(options[,callback]);
+		返回: <http.ClientRequest>
+	
 
 
-概念进阶：
-1.回调
-	异步变成的最基本的方法，将后续逻辑封装到函数中，然后将函数作为起始逻辑函数的参数，逐层嵌套，实现完整逻辑
-2.同步/异步
-	同步是任务按照顺序执行的，前一个任务结束后才能执行下一个任务
-	异步是任务开始后，继续执行下一个任务，任务结束时触发回调函数
-	
-3.I/O
-4.单线程/多线程
-5.阻塞/非阻塞
-6.事件
-	程序中的发生的动作，如http模块创建服务器、链接服务器等等
-7.事件驱动
-	
-8.基于事件驱动的回调
-9.事件循环
+
+
+
 
 
 

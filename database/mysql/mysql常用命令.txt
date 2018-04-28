@@ -1,0 +1,81 @@
+Mysql命令行常用命令
+	1.	连接登陆mysql(超级管理员)：mysql –u root –p
+		完整：mysql -h 主机名 -u 用户名 -p
+	2.	切换选择数据库：use dbname;
+	3.	显示所有数据库：show databases;
+	4.	创建数据库：create database dbname [其它选项];
+	5.	删除数据库：drop database dbname;
+	6.	关闭数据库：killall mysqld;
+	7.	显示当前使用的数据库：select database();
+	
+	0.	创建数据表：create table table_name(column_name column_type--字段声明--不同字段使用逗号,隔开);
+	1.	显示数据库中所有数据表：show tables;
+	2.	查看数据表结构：disc table;
+	3.	显示表创建信息：show create table table_name;
+	4.	清空数据表：truncate table username;
+	4.1	清空数据表记录：delete from table_name;
+	5.	删除数据表：drop table table-name;
+	6.	用文本方式将数据装入数据表中：
+		LOAD DATA LOCAL INFILE '.txt文件路径' INTO TABLE 表名;
+	
+	1.	查看运行环境：status;
+	2.	创建数据库用户：create user username identified by ‘123456’;
+	3.	赋予用户权限：grant all on dbname.table to username;
+	4.	更新权限信息：flush privileges;
+	5.	启动mysql服务：net start mysql;
+	6.	停止mysql服务：net stop mysql;
+	7.	查询端口是否冲突：netstat -na | findstr port	
+			//查看被监听的端口，findstr用于查找后面的端口号是否存在
+	8.	退出mysql:exit或quit
+	9.	导入sql文件：		password_expired
+		9.1.进入数据库：use databaseName
+		9.2.source .sql文件路径
+	10.	显示当前user：select user();
+	
+	
+	tip:输完命令后应该以分号结尾
+
+	
+	如果输入比较长的命令，如创建一个表，可以将创建语句写入XXX.sql文件中，然后通过命令执行该sql脚本：
+		mysql -D 数据库名称 -u root -p <XXX.sql;  --》这里为文件路径
+
+		
+创建数据库表时的字段属性(约束)；
+	1.primary key：主键，一张表只能有一个字段设置，
+		(不过可以设置多个字段作为复合主键)
+	2.auto_increment:自增属性，一般用于主键
+	3.null/not null:字段是否为空，默认null,应尽量保证所有数据不为null 
+	4.default:默认值，指定默认值，如枚举类型中、整数类型中
+	
+	4.comment '描述':用于描述，无实际意义，用于描述字段
+		
+
+修改密码—忘记密码
+1.	kill掉系统里的mysql进程
+2.	在命令提示符下，进入到mysql的bin目录，用以下命令启动mysql，以不检查权限的方式启动；
+		win：mysqld –skip-grant-tables
+		linux：mysql_safe –skip-grant-tables  ctrl+z退出
+3.	然后重新打开一个提示命令符的窗口用空密码方式使用root用户登陆mysql；
+		mysql –u root
+4.	修改root用户的密码：
+		mysql> update mysql.user set password=PASSWORD(‘新密码’) where User=’root’;
+		mysql> flush privileges;(清除缓存)本步骤可省略，但省略很危险
+		mysql> quit
+5.	重启mysql，就可以使用新密码登陆了
+6.	若使用phpmyadmin，进入phpmyadmin下的config.inc.php，修改其中的$cfg[‘Servers’][$i][‘password’]=‘123123’；
+
+
+导入导出
+1.	导出数据.sql
+2.	这些命令不是进入mysql模式用的，实在普通命令行里使用
+	bin> mysqldump –u root –p”123456” text(数据库中库文件) > testtbl.sql（目标地址 d:\date\0304.sql）
+3.	导入数据.sql
+4.	新建一个空的数据库，例如text
+	bin> mysql –u –root –p”123456” text(数据库名称) < testtbl.sql（外部数据库文件）
+
+
+大型数据表导入
+1.	创建一个空数据库
+2.	整理文档，如text.txt，复制到目标数据表文件夹下面，文本名字与数据表一样，而且需要utf8格式，可以用np++调
+3.	在命令行中进入数据库，重复执行如下语句：
+	load data infile’text.txt’ ignore into table test character set utf8 fields terminated by ‘,’ enclosed by”” lines terminated by ‘\n’ (‘name’,’age’,’description’);

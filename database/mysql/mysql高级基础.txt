@@ -1,0 +1,65 @@
+
+Mysql触发器 new 和old 的问题：
+1.new.column_name 和 old.column_name 表示新的和旧的列名属于创建了过度变量，即用于得到新产生的或刚去掉的属性列的值
+2.对于insert语句，只有new是合法的；对于delete语句，只有old是合法的；在update中，new和old可以同时使用
+
+Mysql字符串、变量之间连接处理函数：concat()
+
+Mysql类型转换函数：cast()
+
+分隔符：
+DELIMITER是分隔符的意思，因为mysql默认以‘;’为分隔符，如果我们没有声明分隔符，那么编译器会把存储过程当成sql语句进行处理，所以存储过程的编译过程会报错，所以要实现使用delimiter关键字当前段分隔符，这样mysql才会将‘;’当成存储过程的代码编译。不过用完后必须把分隔符还原为原来的‘;’。
+
+
+Transaction-SQL编程
+1.变量定义
+2.变量赋值
+3.运算
+4.判断
+5.循环
+
+Mysql存储过程中，定义变量有两种方式：
+1.使用set或select直接赋值，变量名以 @ 开头如：set @a =1;可以在一个会话的任何地方声明，作用域是整个会话，称为会话变量
+2.declare语句：是在复合语句中声明变量的指令；只能在存储过程中使用，称为存储过程变量；如declare var1 int default 0; 主要用于存储过程中或者是给存储传参数中
+3.Set和declare区别：declare声明的变量都会被初始化为null，而会话变量则不会被再初始化，在一个会话中，只需初始化一次，之后在会话内都是对上一次计算的结果，相当于全局变量
+4.Select：可以在一条语句中对多个变量同时赋值，set只能一次对一个变量赋值
+5.表达式返回多个值时，用set将会出错，而select将取最后一个值
+6.表达式无返回值时，用set将重置变量为null，用select则保持变量值
+7.使用标量子查询时，如果无返回值，则set和select一样都将置为null
+8.变量定义格式：
+a)	Declare 变量名 变量类型 或							   declare 变量名 变量类型 default  值
+b)	Set 变量名 = 值  或											                 
+Set 变量名 = (select语句);
+
+
+
+
+Mysql运算符：和其他语言一样
+
+
+
+Mysql判断语句
+作为流程控制语句：
+If 条件 then
+Sql语句;
+Elseif 条件 then
+Sql语句;
+End if;
+
+
+Mysql循环语句
+1. While循环
+while 条件 do
+Sql语句;
+end while; 
+2. Repeat循环
+Repeat 
+Sql语句;
+Until 条件 end repeat;
+3. Loop循环
+Loop循环别名 : Loop
+Sql语句;
+If 条件 then
+Leave  loop循环别名;		#起别名用于跳出当前循环
+End if;
+End loop;
