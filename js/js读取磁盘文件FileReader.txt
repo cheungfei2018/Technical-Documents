@@ -1,0 +1,81 @@
+FileReader对象：允许web应用程序伊布都区存储在用户计算机上的文件(或原始数据缓冲区)的内容，使用File或Blob对象指定要读取的文件或数据。
+
+tip：FIle对象可以使来自
+	<input type="file"/>
+选择文件后的FileList对象.也可以来自拖放操作产生的DataTransfer对象，还可以是HTLMCanvasElement上执行mozGetAsFile()方法返回的结果
+
+tip：web worker中可用FileReader；
+
+
+构造方法：
+	FileReader();
+	返回一个新构造的FIleReader对象，如
+	const fileReader= new FileReader;
+
+对象属性：
+	fileReader.error;	//只读属性，表示读取文件时发生的错误，DOMException
+	fileReader.readyState;	//只读属性，表示读取时候的状态，取值如下
+		常量名：EMPTY	值：0	des：还未加载任何数据
+		常量名：LOADING	值：1	des：数据正在被加载
+		常量名：DONE	值：2	des：已完成全部的读取请求
+	fileReader.result;	//只读属性，文件的内容，只有在读取操作完成后有效，数据格式取决于用哪种读取方法操作
+		
+
+事件：
+	fileReader.onabort：该事件在读取操作被中断时触发
+	fileReader.onerror：该事件在读取操作发生错误时触发
+	fileReader.onload：该事件在读取操作完成时触发
+	fileReader.onloadstart：该事件在读取操作开始时触发
+	fileReader.onloadend：该事件在读取操作完成时触发
+	fileReader.onprogress：该事件在读取Blob时触发
+		
+
+方法：
+	fileReader.abort():终止读取操作，返回时，readyState属性为DONE
+	fileReader.readAsArrayBuffer():开始读取指定的Blob中的内容，一旦完成，result属性中保存的将是被读取文件的ArrayBuffer数据对象
+	fileReader.readAsBinaryString():开始读取指定的Blob中的内容，一旦完成，result属性中将包含所读文件的原始二进制数据
+	fileReader.readAsDataURL():读取指定的Blob中的内容，一旦完成，result属性中将包含一个data:URL格式的字符串以表示所读文件的内容
+	fileReader.readAsText():开始读取指定的Blob中的内容。一旦完成，result属性中将包含一个字符串以表示所读取的文件内容。
+		
+		
+	
+
+检查浏览器是否兼容FileReader接口：
+	if(typeof FileReader == 'undefined'){
+		//浏览器不支持FileReader
+		//这时可使某些文件选择控件不可操作
+	}
+		
+		
+		
+扩展：
+
+1. Blob对象：		
+	表示一个不可变、原始数据的类文件对象；Blob表示的不一定是JavaScript原生格式的数据
+		
+		
+2. File对象
+	接口提供有关文件的信息，并允许网页中的JavaScript访问其内容；File接口基于Blob；继承了Blob的功能，是特殊类型的Blob
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

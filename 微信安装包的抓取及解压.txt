@@ -1,0 +1,17 @@
+1.root手机
+
+2.打开re资源管理器，找到微信安装包存放的位置：
+	/data/data/com.tencent.mm/MicroMsg/微信号(加密)/appbrand/pkg/
+	2.1:清空文件
+	2.2:打开微信中的小程序、小游戏
+	2.3:在安装包存放目录找到打开过的小程序
+	2.4:拷贝安装包到根目录中的自定义文件夹中
+	2.5:分享到微信中
+	
+3.对小程序安装包进行解压：
+	解压工具：
+		https://github.com/qwerty472123/wxappUnpacker
+		https://github.com/Juice4213/wxappUnpacker
+		https://github.com/leo9960/wechat-app-unpack
+	
+4.对于微信小程序中网络请求的资源，需要另外的网络抓包工具
