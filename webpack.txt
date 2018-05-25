@@ -30,7 +30,6 @@
 	3.让css文件在网页上生效
 	require('style-loader!css-loader!app/style.css');
 	
-	
 	css-loader:使得webpack可以处理css文件
 	style-loader:使得css-loader处理后的css代码插入到style标签中
 
@@ -92,7 +91,7 @@
 	即可
 	
 11.webpack.config.js页面的一些基本配置：
-	//引用插件
+	//引用一些插件
 	var htmlWebpackPlugin = require('html-webpack-plugin');
 
 	//自定义的config配置文件
@@ -238,6 +237,8 @@
 	15.2 在CLI命令行中使用
 	15.3 在配置文件webpack.config.js中定义
 	
+	
+
 16.webpack项目安装babel进行es6代码转换
 	1.安装babel模块：
 		npm install babel-loader babel-core --save-dev

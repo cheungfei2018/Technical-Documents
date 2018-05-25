@@ -1,5 +1,18 @@
 NPM：NodeJS的包管理工具，能够解决NodeJS代码部署上的很多问题。
 
+npm三部分：
+	1.网站(web)：包查找、参数设置、管理npm使用体验
+	2.注册表(registry)：保存了每个包的信息的巨大数据库
+	3.命令行工具(LCI)：通过命令行或终端运行，开发者通过cli与npm打交道
+	
+下载安装包：
+	1.本地安装：
+		如果项目中依赖于某个包，并通过Node.js的require加载，则应该选择本地安装，这也是默认安装行为
+	2.全局安装：
+		如果想将包作为一个命令行工具(如一些打包工具，webpack等),这应该选择全局安装
+	
+	
+
 常见的使用场景：
 	1.允许用户从NPM服务器下载别人编写的第三方包到本地
 	2.允许用户从NPM服务器下载并安装别人编写的命令行程序到本地使用
@@ -8,7 +21,6 @@ NPM：NodeJS的包管理工具，能够解决NodeJS代码部署上的很多问题。
 新版本的NodeJS已经集成了NPM，可以通过输入" npm -v "来检测是否安装成功
 
 如果需要升级旧版本的npm，可通过下面命令：
-	
 	window系统：
 		npm install npm -g
 		使用淘宝淘宝镜像的命令：
@@ -22,42 +34,72 @@ NPM：NodeJS的包管理工具，能够解决NodeJS代码部署上的很多问题。
 		
 		
 使用npm命令安装模块：
-	$ npm install <Module Name>
+	$ npm install <Module Name>		//本地安装
 	如下，安装常用的Node.js web框架模块express：
 	$ npm install express
 	安装好之后，express包就放在了工程目录下的node_modules目录中，因此在代码中只需要通过require('express')的方式就可以使用，无需指定第三方包路径
 	如：
 	var express = require('express');
 		
-		
-
-全局安装和本地安装：
+依赖包的安装：全局安装和本地安装：
 	1. 本地安装：	
 		npm install express          # 本地安装
-	1.1本地安装将安装包放在./node_modules下(运行npm命令时所在的目录)，如果没有node_modules目录，则会在当前执行npm命令的目录下生成node_modules目录
-	1.2可以通过require()来引入本地安装的包
+		等价于：
+		npm install express --save	
+		//--save表示会在package.json文件的dependencies属性下添加依赖包名称
+		
+		npm install express --save-dev
+		//--save-dev表示会在package.json文件的devDependencies属性下添加依赖包名称
+		
+		区别：
+		dependencies：运行时的依赖,运行需要的依赖安装到这里
+		devDependencies：开发时的依赖，运行时不需要的依赖安装到这里，如打包工具等之类的
+		
+		1.1可以通过require()来引入本地安装的包
+		1.2本地安装将安装包放在./node_modules下(运行npm命令时所在的目录)，如果没有node_modules目录，则会在当前执行npm命令的目录下生成node_modules目录
+		
+		tip：运行 npm install ；需要安装所有依赖时可用
+			可将package.json中devDependencies和dependencies自动安装到node_modules目录中
+			
+	//////////删除本地安装的包
+		npm uninstall moduleName	//与下面两个等价
+		npm uninstall moduleName --save	//删除使用了--save安装的包，会删除package.json中的相关
+		
+		//删除 --save-dev 安装的包
+		npm uninstall moduleName --save-dev
+		
 		
 	2. 全局安装：
 		npm install express -g   	# 全局安装
-	2.1将安装包放在/user/local下或者在你的node的安装目录
-	2.2可以直接在命令行中使用
+		2.1将安装包放在/user/local下或者在你的node的安装目录
+		2.2可以直接在命令行中使用
+		
+		更新全局安装的包
+		npm update -g moduleName
+		
+		查看哪些1全局包需要更新
+		npm outdated -g -depth=0
+		
+		更新所有全局包
+		npm update -g
+		
+		升级npm到最新版本
+		npm install npm@latest -g
 	
-	3.添加到依赖列表安装：
-		npm install express --save
-	
-	tip:node使用npm安装模块时，如果指定了--save参数，那么此模块将被添加到package.json文件中dependencies依赖列表中，然后通过npm install命令即可自动安装列表中所列出的所有模块
-	
+		卸载全局安装的包
+		npm uninstall -g moduleName
+
 如果希望同时具备两种功能，则需要在两个地方都安装或者使用npm link命令
 
 
 查看所有全局安装的模块：
-	$ npm list -g
+	$ npm list -g	//查看本地安装时无需 -g 参数
 	
 查看某一模块的版本号：
-	$ npm list grunt
+	$ npm list moduleName
 	
 //查看模块包的所有版本号
-	$ npm view 模块名称 versions
+	$ npm view moduleName versions
 	
 
 使用package.json：
@@ -69,7 +111,8 @@ package.json属性说明：
     homepage - 包的官网 url 。
     author - 包的作者姓名。
     contributors - 包的其他贡献者姓名。
-    dependencies - 依赖包列表。如果依赖包没有安装，npm 会自动将依赖包安装在 node_module 目录下。
+    dependencies - 运行时依赖包列表，
+	devDependencies - 开发时依赖包列表，不需要在运行时依赖的写在这里
     repository - 包代码存放的地方的类型，可以是 git 或 svn，git 可在 Github 上。
     main - main 字段指定了程序的主入口文件，require('moduleName') 就会加载这个文件。这个字段的默认值是模块根目录下面的 index.js。
     keywords - 关键字
