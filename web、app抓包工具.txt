@@ -3,7 +3,8 @@
 	HTTrack
 	
 手机端：
-	charles
+	charles--苹果
+	fiddler--windows
 
 微信小程序：
 	WxApkgUnpacker(exe文件)
