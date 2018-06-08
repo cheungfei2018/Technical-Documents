@@ -1,0 +1,30 @@
+WXSS：一套样式语言，用于描述 WXML 的组件样式
+	为了适应广大的前端开发者WXSS具有CSS大部分特性。同时为了更适合开发微信小程序，WXSS 对 CSS 进行了扩充以及修改
+
+	扩展的特性：
+		尺寸单位：rpx
+		样式导入：@import
+		
+		
+	支持的选择器:
+		.class 		选择所有拥有 class="intro" 的组件
+		#id 	 	选择拥有 id="firstname" 的组件
+		element  	选择所有 view 组件
+		element, element  	选择所有文档的 view 组件和所有的 checkbox 组件
+		::after 	在 view 组件后边插入内容
+		::before  	在 view 组件前边插入内容
+		
+		
+全局样式与局部样式：
+		定义在 app.wxss 中的样式为全局样式，作用于每一个页面。在 page 的 wxss 文件中定义的样式为局部样式，只作用在对应的页面，并会覆盖 app.wxss 中相同的选择器
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

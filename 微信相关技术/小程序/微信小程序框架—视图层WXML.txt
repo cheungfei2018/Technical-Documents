@@ -1,0 +1,164 @@
+tip：接-->微信小程序框架—基础及逻辑层.txt
+
+
+视图层：由WXML和WXSS编写，由组件来进行展示
+	讲逻辑层数据反应成视图，同时将视图层的事件发送给逻辑层
+	WXML(WeiXin Markup Language):描述页面结构
+	WXS(WeiXin Script):小程序的一套脚本语言，结合WXML，构建出页面的结构
+	WXSS(WeiXin Style Sheet):描述页面样式
+	组件(Component)是视图的基本组成单位
+	
+	
+WXML的能力：
+	1.数据绑定
+		WXML中的动态数据均来自Page()的data字段
+		
+		简单绑定：使用Mustache语法(双大括号{{}})将变量包起来；可以作用于：
+			1.组件内容
+			2.组件属性，需要在双引号之内
+			3.控制属性，需要在双引号之内
+			4.关键字，需要在双引号之内；true-boolean中的true；或false，表示假
+				tip:使用关键字时，必须放到双大括号中，不能直接放在双引号完事
+				
+		运算：可以在{{}}内进行简单的运算，支持的方式如下：
+			1.三元运算符
+			2.算数运算
+			3.逻辑判断，如wx.if属性中的判断
+			4.字符串运算，如拼接字符串
+			5.数据路径运算；如寻找对象或数组的元素
+			
+		组合：也可以在Mustache内直接进行组合，构成新的对象或数组
+			1.数组；如：wx:for="{{[zero, 1, 2, 3, 4]}}"，zero来自data
+			2.对象
+			
+		tip: 
+			1. ...(三点)扩展运算符可以将一个对象展开
+			2. 花括号和引号之间如果有空格，将最终解析为字符串
+		
+	
+	2.列表渲染，wx:for="{{array}}" 属性可以循环数组;{{item}}表示元素
+		使用wx:for属性绑定一个数组，即可使用数组中的各项数据重复渲染该组件
+		默认情况下，当前项的下标变量名为index，当前项的值的名称为item
+		使用wx:for-item 可以指定数组当前元素值的变量名
+		使用wx:for-index 可以指定数组当前下标的变量名
+		wx:for 也可以嵌套使用，如生成9*9口诀
+		
+		block wx:for ---使用在<block/>标签上，以渲染一个包含多个节点的结构块
+		
+	
+	3.条件渲染，wx:if="{{view == 'abc'}}"	//
+				wx:elif="{{}}"
+				wx:else="{{}}"
+		在组建中，使用wx:if="{{condition}}"来判断是否需要渲染改代码块；也可以使用wx:elif="{{}}"和wx:else="{{}}"来添加一个else块
+			
+			
+				
+	4.模板；<template></template>	
+		WXML提供模板(template),可以在模板中定义代码片段，然后在不同的地方调用
+		1.定义模板：<template name="模板名称">组件代码块</template>
+		2.使用模板：<template is="模板名称" />
+			tip：is属性可以使用Mustache语法，来动态决定具体需要渲染哪个模板
+		
+		模板的作用域：只能使用data传入的数据以及模板定义文件中的定义的<wxs />
+	
+	
+	
+	5.事件：
+		定义：事件是视图层到逻辑层的通讯方式；时间可以将用户的行为反馈到逻辑层进行处理；事件可以绑定到组件上，当触发事件，就会执行逻辑层中对应的事件处理函数；事件对象可以携带额外的信息，如id、dataset、touches等等
+		
+		事件的使用方式：
+			1. 在组建中绑定一个事件处理函数，如 bindtap="tapFun"
+			2. 在相应的Page定义中写上相应的事件处理函数tapFun,参数为event
+			3. 如果需要事件的详细信息，可log() event对象，可查看
+		
+		事件分类：
+			1.冒泡事件：当一个组件上的事件被触发后，该事件会向父节点传递
+			2.非冒泡事件：当一个组件上的事件被触发后，该事件不会向父节点传递
+		
+		WXML的冒泡事件列表：
+			touchstart：手指触摸动作开始
+			touchmove：手指触摸后移动
+			touchcancel：手指触摸动作被打断，如来电提醒，弹窗
+			touchend：手指触摸动作结束
+			tap：手指触摸后马上离开(点击)
+			longpress：手指触摸后，超过350ms再离开，如果指定了事件回调函数并且出发了该事件，则tap事件将不被触发
+			longtap：手指触摸后，超过350ms再离开，推荐longpress代替
+			transitioned：在WXSS transition或wx.createAnimation动画结束后触发
+			animationstart：会在一个WXSS animation动画开始时触发
+			animationiteration：会在一个WXSS animation一次迭代结束后触发
+			animationend：会在一个WXSS animation动画完成时触发
+			
+		WXSL的非冒泡事件：除了以上的事件之外的其他组件自定义事件如无特殊声明都是非冒泡事件，如<form/>的submit、<input/>的input、<scroll-view/>的scroll事件等
+		
+		
+		事件绑定与冒泡：
+			事件绑定的写法与组件的属性写法相同， 以key和value的形式
+			key以 bind或catch开头，然后跟上事件的名称，如bindtap、catchtap等；
+			自1.5.0起，bind和catch后可以紧跟一个冒号 : ;如bind:tap == bindtap.
+			value 是一个字符串，对应Page中定义的同名函数，也就是事件调用函数
+			
+			bind前缀和catch前缀的区别：
+				bind事件绑定不会阻止冒泡事件向上冒泡
+				catch事件绑定可以阻止冒泡事件向上冒泡
+			
+		
+		事件的捕获阶段：
+			自基础库版本1.5.0起，触摸类事件支持捕获阶段。
+			捕获阶段位于冒泡阶段之前，且捕获阶段中，事件到达节点的顺序与冒泡阶段恰好相反，需要在捕获阶段监听事件时，可以采用capture-bind、capture-catch关键字，后者将终端捕获阶段且取消冒泡阶段
+			
+			
+		事件对象：
+			如无特殊说明，当组件触发事件时，逻辑层绑定该事件的处理函数会收到一个事件对象，
+			BaseEvent基础事件对象的属性列表：
+				type：String，事件的类型
+				timeStamp：Integer，事件生成时的时间戳；页面打开到触发事件所经过的毫秒数
+				target：Object，触发事件的组件的一些属性值集合;如:
+					id：String，事件源组件的id
+					tagName：String，当前组件的类型
+					dataset：object，事件源组件上由data-开头的自定义属性组成的集合
+				currentTarget：Object，当前组件的一些属性值集合
+					id：String，当前组件的id
+					tagName：String，当前组件的类型
+					dataset：object，当前组件上由data-开头的自定义属性组成的集合；组件上写的data-开头，不能有大写，多个单词-链接
+				
+			CustomEvent自定义事件对象属性列表(继承自BaseEvent)
+				detail：Object，额外的信息；自定义事件所携带的数据，如表单提交事件会携带用户的输入等
+				
+			TouchEvent 触摸事件对象属性列表(继承自BaseEvent)
+				touches：Array，触摸事件，当前停留在屏幕中的触摸点信息的数组
+					identifier：Number，触摸点的标识符
+					pageX,pageY：Number，距离文档左上角的位置
+					clientX,clientY：Number，距离页面可显示距离左上角距离
+				CanvasTouch：canvas触摸事件中携带的touches是CanvasTouch数组：
+					indentifier：Number，触摸点的标识符
+					x,y：Number，距离Canvas左上角的距离
+					
+				changedTouches：Array，触摸事件，当前变化的触摸点信息的数组
+					changedTouches 数据格式同 touches。 表示有变化的触摸点，如从无变有（touchstart），位置变化（touchmove），从有变无（touchend、touchcancel）。
+				
+			tip：<canvas/>中的触摸事件不可冒泡，所以没有currentTarget
+				
+					
+		
+	6.引用：WXML提供了两种文件引用方式：import和inlcude
+		import：可以在改文件中使用目标文件定义的template
+			import的作用域：只会 import 目标文件中定义的 template，而不会 import 目标文件 import 的 template
+			
+		include：可以将目标文件除了<template/><wxs/>外的整个代码引入，相当于是拷贝到 include 位置
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		

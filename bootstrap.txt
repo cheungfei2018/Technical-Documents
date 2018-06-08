@@ -1,0 +1,5 @@
+tip:bootstrap的所有js插件都依赖于jQuery，所以jQuery必须在bootstrap之前引入
+
+Bootstrap 源码包含了预先编译的 CSS、JavaScript 和图标字体文件，并且还有 LESS、JavaScript 和文档的源码
+
+1.通过npm安装使用bootstrap

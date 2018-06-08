@@ -1,0 +1,88 @@
+1、数据缓存--本地存储
+	tip：同一个微信用户、同一个小程序storage上限为10MB
+	localStorage以用户唯独隔离，同一设备上的不同用户互不影响
+	
+	//异步接口
+	wx.setStorage(object);	//将数据存储到本地缓存指定的key中，可覆盖
+		object参数：
+			key：指定的key
+			data：存储的内容
+			success：接口调用成功的回调函数
+			fail：接口调用失败的回调函数
+			complete：接口调用结束后的回调函数，不管成功或失败
+	wx.getStorage(object);	//从本地缓存中异步获取指定key对应的内容
+		object参数：
+			key：指定的key
+			success：接口调用的回调函数，res={data:key对应的内容}
+	wx.getStorageInfo(object);	//异步获取当前storage的相关信息
+		object参数：
+			success：接口调用成功的回调函数,返回参数：
+				keys:String Array,当前storage中所有的key
+				currentSize：当前占用的空间大小, 单位kb
+				limitSize：限制的空间大小，单位kb
+	wx.removeStorage(object);	//从本地缓存中异步移除指定key
+		object参数：
+			key: 	本地缓存中的指定的 key
+			success：接口调用成功的回调函数
+	wx.clearStorage();	//清理本地数据缓存
+			
+	//同步接口
+	wx.setStorageSync(key,data);	//key为指定的key，data为要存储的数据
+	wx.getStorageSync(key);		//从本地缓存中同步获取指定 key 对应的内容
+	wx.getStorageInfoSync();	//同步获取当前storage的相关信息
+	wx.removeStorageSync(key);	//从本地缓存中同步移除指定 key 。
+	wx.clearStorageSync();		//同步清理本地数据缓存
+	
+	
+	
+2、网络请求
+	wx.request(object);		//发起网络请求
+		object参数：
+			url:开发者服务器接口地址
+			data：请求的参数
+			header：设置请求的header
+			method：请求方法，常用POST、GET；必须大写
+			dataType：数据类型
+			responseType：设置响应的数据类型
+			success：接口调用成功的回调函数，参数：
+				data：开发者服务器返回的数据
+				statusCode：开发者服务器返回的http状态码
+				header：开发者服务器返回的HTTP Response Header
+			fail：接口调用失败的回调函数
+			complete：接口调用结束后的回调函数，不管成功或失败
+	
+	
+3.获取access_token
+	access_token：公众号的全局唯一接口调用凭据，公众号调用各接口时都需使用access_token；
+	tip：access_token的有效期目前为2个小时，需定时刷新，重复获取将导致上次获取的access_token失效；在获取新的access_token的过程中，5分钟之内，新老access_token都可用，保证第三方业务的平滑过渡
+	
+	通过AppID和AppSecret调用接口可以获得access_token：
+	接口：https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET
+	请求方式：GET
+	参数说明：
+		grant_type：获取access_token填写client_credential
+		appid：第三方用户的唯一凭证
+		secret：第三方用户唯一凭证秘钥，即appsecret
+		
+	正常情况下返回的内容：
+		{"access_token":"ACCESS_TOKEN","expires_in":7200}
+		
+	请求成功后可以保存在本地数据中；当有后台时，一般保存在后台服务器
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

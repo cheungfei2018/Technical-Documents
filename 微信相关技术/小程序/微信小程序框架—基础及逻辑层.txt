@@ -1,0 +1,274 @@
+框架目标：通过尽可能简单、高效的方式让开发者可以在微信中开发具有原生 APP 体验的服务
+
+框架内容：提供了自己的视图层描述语言WXML和WXSS，以及基于JavaScript的逻辑层框架，并在视图层与逻辑层间提供了数据传输和事件系统，可以让开发者可以方便的聚焦于数据与逻辑上
+
+核心：响应的数据绑定系统。整个系统分为视图层(View)和逻辑层(App service)
+
+页面管理：管理了整个小程序的页面路由，可以做到页面间的无缝切换，并给以页面完整的生命周期
+
+基础组件：提供了一套基础的组件
+
+丰富的API：提供丰富的微信原生 API，可以方便的调起微信提供的能力
+
+
+
+文件结构：
+	根目录：
+		app.js：必须，小程序逻辑
+		app.json：必须，小程序公共设置
+		app.wxss：可选，小程序公共样式表
+	小程序页面(页面文件夹)由四个程序组成：
+		js：必须，页面逻辑
+		wxml：必须，页面结构
+		wxss：可选，页面样式表
+		json：可选，页面配置
+		tip：四个文件必须具有相同的路径和文件名称
+		
+
+		
+		
+app.json 配置：
+	app.json文件用来对微信小程序进行全局配置，决定页面文件的路径、窗口表现、设置网络超时时间、设置多tab等
+	
+	app.json配置列表项：
+	{
+		"pages":[	
+			//StringArray，必须，设置页面路径，所有页面路径都将在这里呈现
+			//第一个页面路径为小程序的入口文件，增删页面，度需要对pages数组进行修改
+			//路径的文件名不需要写后缀，框架会自动整合.json, .js, .wxml, .wxss
+		],
+		"window":{
+			//设置小程序的状态栏、导航条、标题、窗口背景色
+			"navigationBarBackgroundColor":"#ccc",	//导航栏背景颜色，十六进制颜色
+			"navigationBarTextStyle":"white",		//导航栏标题颜色，仅支持black/white
+			"navigationBarTitleText":"标题",		//导航栏标题内容
+			"backgroundColor":"#ccc",				//窗口的背景色
+			"backgroundTextStyle":"dark",//下拉背景字体、loading图样式，仅支持dark/light
+			"enablePullDownRefresh":"false",		//是否开启下拉刷新
+			"onReachBottomDistance":100,		//页面上拉触底事件触发时距页面底部的距离
+		},
+		"tabBar":{
+			//tabBar配置项可以指定顶部或底部tab栏的表现，以及tab切换时显示的页面
+			"color":"#f00",		//tab上字体默认颜色
+			"selectedColor":"#fff",			//tab上的文字选中时的颜色
+			"backgroundColor":"#ccc",		//tab的背景色
+			"borderStyle":"black",			//tabbar上边框的颜色，仅支持black/white
+			"list":[
+				//tab的列表详见list属性说明，2~5个
+				//list数组的每个数组元素都是一个对象，其属性值如下
+				{
+					"pagePath":"string",	//必须，页面路径，必须在pages中先定义
+					"text":"文字",			//必须，tab上按钮的文字
+					"iconPath":"string",	//图片路径，限制大小为40kb，建议80*80
+					"selectedIconPath":"string",	//选中时的图片路径
+				},
+				{
+				}
+				//tip:选项卡功能一定需要将首页写入进去，不然无法显示出来
+				
+			],		
+			"position":"bottom",		//tabbar居下还是居上，可选bottom/top
+		},
+		"networkTimeout":{
+			//可以设置各种网络请求的超时时间
+			"request":60000,	//可选，wx.request的超时时间，单位是毫秒
+			"connectSocket":60000,	//可选，wx.connectSocket的超时时间
+			"uploadFile":60000,		//可选，wx.uploadFile的超时时间
+			"downloadFile":60000,	//可选，wx.downloadFile的超时时间
+		},
+		"debug":Boolean		//可以在开发者工具中开启debug模式
+	}
+	
+		
+		
+		
+page.json(每个页面对应的.json文件)配置：
+	每个小程序页面也可以使用.json文件来对本页面的窗口表现进行配置，页面的配置比app.json全局配置简单的多，只能设置app.json中的window配置项的内容，页面配置项会覆盖app.json的window中相同的配置项。
+	页面的.json只能设置window相关的配置项，以决定本页面的窗口表现，所以无需写window{},直接写window相关的配置项即可：
+		navigationBarBackgroundColor 	导航栏背景颜色，如"#000000"
+		navigationBarTextStyle	 	导航栏标题颜色，仅支持 black/white
+		navigationBarTitleText 		导航栏标题文字内容
+		backgroundColor  		窗口的背景色
+		backgroundTextStyle 	下拉背景字体、loading 图的样式，仅支持 dark/light
+		enablePullDownRefresh  	是否开启下拉刷新，详见页面相关事件处理函数。
+		disableScroll 		默认false 设置为true则页面整体不能上下滚动；只在page.json中有效，无法在app.json中设置该项；
+		onReachBottomDistance 	页面上拉触底事件触发时距页面底部距离，单位为px
+		
+		
+		
+		
+逻辑层(App Service)：将将处理之后的数据发送给视图层，同时接受视图层的事件反馈
+	App()--注册程序：该函数用来注册一个小程序，接受一个object参数，其指定小程序的生命周期函数等，
+		object参数：
+			onLaunch：function(){} 生命周期函数-监听小程序初始化；当小程序初始化完成时触发，(只触发一次)
+			onShow:funciton(){} 生命周期函数，监听小程序显示，当小程序启动或从后台进入前台时触发
+			onHide:function(){} 生命周期函数，监听小程序隐藏，当小程序从前台进入后台时触发
+			onError:function(){} 错误监听函数，当小程序发生脚本错误或API调用失败时触发并带上错误信息
+			其他:Any 开发者可以添加任意函数或者数据到Object参数中，使用this可以访问
+			
+		
+	onLaunch\onShow参数：
+		path:String	//打开小程序的路径
+		query:Object	//打开小程序的query
+		scene:number	//打开小程序的场景值
+		shareTicket:String	//shareTicket
+		referrerInfo:Object	//当场景由从另一个小程序或公众号或App打开时，返回此字段
+		referrerInfo.appId:String	//来源小程序或公众号或App的 appId
+		referrerInfo.extraData:Object//来源小程序传过来的数据，scene=1037或1038时支持
+		
+		
+		
+	Page()--注册一个页面，接受一个Object参数，指定页面的初始数据、生命周期函数、事件处理函数等
+	
+	Object参数说明：
+		data:{
+			//页面的初始化数据，键值对的写法
+		},
+		onLoad:function(options){
+			//生命周期函数--监听页面加载
+			//一个页面只会调用一次，可以获取打开当前页面所调用的query参数
+			//options：Object--其他页面打开当前页面所调用的query参数
+		},
+		onReady:function(){
+			//生命周期函数--监听页面初次渲染完成
+			//一个页面只会调用一次，表示页面已经准备妥当，可以和视图层交互
+		},
+		onShow:function(){
+			//生命周期函数--监听页面显示
+			//每次打开页面都会调用一次
+		},
+		onHide:function(){
+			//生命周期函数--监听页面隐藏
+			//当navigateTo或底部tab切换时调用
+		},
+		onUnload:function(){
+			//生命周期函数--监听页面卸载
+			//当redirectTo或navigateBack的时候调用
+		},
+		onPullDownRefresh:function(){
+			//页面相关事件处理函数--监听用户下拉动作
+			//需要在配置页面开启enablePullDownRefresh
+			//当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉
+		},
+		onReachBottom:function(){
+			//页面上拉触底事件的处理函数
+			//可以在配置页面设置触发距离onReachBottomDistance
+			//在触发距离内滑动期间，本事件只会被触发一次
+		},
+		onShareAppMessage:function(){
+			//用户点击右上角转发
+			//只有定义了此事件处理函数，右上角才会显示"转发"按钮
+			//用户点击转发按钮的时候调用
+			//此事件需要return一个Object，用于自定义转发内容
+			return {
+				title:"转发标题",	//默认值为小程序名称
+				path:"转发路径"		//当前页面path，必须以/开头的完整路径
+			}
+		},
+		onPageScroll:function(options){
+			//页面滚动事件的处理函数
+			//参数options为Object，包含字段为scrollTop(number),垂直方向滚动的距离（单位px）
+		},
+		其他:Any 开发者可以添加任意函数或数据到Object参数中，在页面的函数中用this访问
+		
+	tip:object内容在页面加载时会进行一次深拷贝，需考虑数据大小对页面加载的开销
+		
+		
+	数据初始化：初始化数据将作为页面的第一次渲染。data将会以JSON的形式由逻辑层传至渲染层，所以其数据必须是可以转成JSON的格式：字符串，数字，布尔值，对象，数组
+		
+	在上面的Page()中，出了初始化数据和生命周期函数，Page()中还可以定义一些特殊的函数----事件处理函数
+		1. 在渲染层可以在组件上加入事件绑定
+		2. 当触发事件时，就会执行Page中定义的事件处理函数
+		
+		Page.prototype.route：route字段可以获得当前页面的路径：this.route
+		Page.prototype.setData()：setData函数用于将数据从逻辑层发送到视图层(异步)同时改变对应的this.data的值(同步):this.setData()
+			this.setData(data,callback);
+				//data:object,必须，这次要改变的数据，以key:value的形式对应this.data中的key:value
+				//callback:function,可选，回调函数
+		
+		tip:
+			1.直接修改this.data而不调用this.setData是无法改变也难的状态的，还会造成数据不一致
+			2.单词设置的数据不超过1024kb，请尽量避免一次设置过多的数据
+			3.不能把data中的任意一项的value设置为undefined，否则这一项将不被设置且可能遗留一些潜在问题
+		
+		
+
+		
+		
+页面路由：小程序中所有页面的路由全部由框架进行管理
+
+	页面栈：框架以栈的形式维护了当前的所有页面
+		当发生路由切换时，页面栈的表现：
+		1. 初始化：新页面入栈
+			小程序打开的第一个页面
+		2. 打开新页面：新页面入栈
+			调用API wx.navigateTo或使用组件<navigator open-type="navigateTo"/>
+		3. 页面重定向：当前页面出栈，新页面入栈
+			调用API wx.redirectTo或使用组件<navigator open-type="redirectTo"/>
+		4. 页面返回：也难不断出栈，直到目标返回页，新页面入栈
+			调用 API wx.navigateBack 或使用组件<navigator open-type="navigateBack">或用户按左上角返回按钮
+		5. tab切换：页面全部出栈，只留下新的tab页面
+			调用 API wx.switchTab 或使用组件 <navigator open-type="switchTab"/> 或用户切换 Tab
+		6. 重加载：页面全部出栈，只留下新的页面
+			调用 API wx.reLaunch 或使用组件 <navigator open-type="reLaunch"/>
+		
+	getCurrentPages()：用于获取当前页面栈的实例，艺术组形式按栈的顺序给出，第一个元素为首页，最后一个元素为当前页
+	tip：不要尝试修改页面栈，会导致路由以及页面状态错误
+		
+	
+	tip:
+		1. navigateTo,redirecTo 只能打开非tabBar页面
+		2. switchTab 只能打开tabBar页面
+		3. reLaunch 可以打开任意页面
+		4. 页面底部的tabBar由页面决定，只要定义为tabBar的页面，底部都有tabBar
+		5. 调用页面路由带的参数可以在目标页面的onLoad中获取，由options对象接受
+		
+		
+		
+
+		
+模块化
+	文件作用域：
+		在JavaScript文件中声明的变量和函数只有在该文件中有效，不同的文件中可以声明相同名字的变量和函数，不相互影响
+	
+		通过全局函数getApp()可以获取全局的应用实例，如果需要全局的数据可以在App()中设置；然后在其他页面通过getApp()获取到全局实例，通过对象属性操作获取到全局数据
+		
+		
+	模块化：
+		可以将一些公共的diamante抽离成为一个单独的js文件，作为一个模块；模块只有通过module.exports或者exports才能对外暴露接口；然后在需要使用公共模块的js文件中使用require导入模块即可使用
+	tip：
+		1.exports是module.exports的一个引用，因此在模块里边随意更改exports的指向会造成位置的错误。所以更加推荐采用module.exports来暴露模块接口
+		2.小程序目前不支持直接引入node_modules，开发者需要使用到node_modules时建议拷贝出相关的代码到小程序的目录中
+		
+		3.require(模块导入)暂时不支持绝对路径
+		
+	
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

@@ -1,0 +1,81 @@
+一个机遇任务的JavaScript工程命令行构建工具
+
+特点：
+	自动化，对于需要重复的任务，如压缩、变异，单元测试、linting等，自动化工具可以减轻工作量
+	
+	grunt生态系统非常庞大，拥有数量庞大的插件可供选择，也可以自己手动创造一个grunt工具
+	
+安装：grunt和grunt插件通过npm安装和管理
+
+
+1.全局安装grunt-cli：
+	npm install -g grunt-cli
+	
+	tip:安装了grunt-cli并不等于安装了grunt
+	grunt-cli的作用：调用与gruntfile在同一目录中的grunt，这样做的好处是允许在同一个系统上安装多个版本的grunt
+	
+	cli工作原理：
+		每次运行grunt时，他就利用node提供的require()系统查找本地安装的Grunt。正是由于这一机制，你可以在项目的任意子目录中运行grunt
+		
+2.生成package.json文件：npm init
+
+3.安装grunt：npm install grunt --save-dev	//开发依赖
+
+4.按照所需功能进行安装插件：
+	grunt-contrib-concat：合并文件-js
+	grunt-contrib-jshint：检查每个js文件语法
+	grunt-contrib-sass：scss编译
+	grunt-contrib-uglify：对js文件进行压缩
+	grunt-contrib-watch：建立本地服务器进行监听文件变动
+	grunt-contrib-connect：建立本地服务器
+
+
+5.在grunt项目根目录创建Gruntfile.js空文档
+	作用：项目自动化工作流配置文件
+	tip:首字母必须大写
+
+	Gruntfile.js文件基本格式：
+	module.exports = function(grunt){
+		//配置内容
+		
+		//1.可以是自己的js代码，如开关变量、对象参数等
+		
+		//2.和grunt有关的三块代码：任务配置代码、插件加载代码、任务左侧代码
+		
+		//2.1.任务配置代码
+		grunt.initConfig({
+			//读取package.json文件，并获取里面的信息
+			pkg:grunt.file.readJSON('package.json'),	
+			//uglify对象，名字固定，表示下面的任务是调用uglify插件
+			uglify:{
+				options:{},
+				bulid:{}
+			}
+			
+		});
+		
+		//2.2.插件加载代码
+		//grunt.loadNpmTasks('插件名');
+		//如：
+		gruntloadNpmTasks('grunt-contrib-uglify');
+		
+		//2.3.任务注册代码
+		grunt.registerTask('default',['uglify']);
+		//tip:上面意思是在default上注册了一个uglify任务，default就是别名，是默认的task，当项目目录运行grunt时，它会执行注册到default上面的任务
+		
+		//也可以注册别的task，如
+		grunt.registerTask('compress',['uglify']);
+		//上面这条需要执行grunt compress
+	}
+
+		
+
+
+
+
+
+
+
+
+
+		

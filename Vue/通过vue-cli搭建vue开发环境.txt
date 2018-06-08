@@ -1,0 +1,89 @@
+1.安装node
+
+2.创建项目文件夹，安装vue：npm install vue
+
+3.脚手架搭建
+	npm install -g vue-cli	==>2.X版本
+	npm install -g @vue/cli ==>3.X版本
+
+4.搭建测试，在项目文件夹中使用
+	vue list
+	可以看到可以使用的模板的列表
+	
+5.这里选择模板webpack模板创建
+	vue init webpack test
+	在安装选项中选择自己需要的即可，其中ESLint表示es6的代码风格检查器。
+	tip：最好将vue-router选择上，这样就不需要在额外安装
+	
+	安装完后项目文件夹会多一个目录(目录名为project名称)，也就是说这个文件夹是真正的项目文件夹
+	
+6.进入命令创建的项目文件夹即可进行开发操作，代码在src目录
+	安装依赖(最好重新安装一下)
+		npm install
+	启动项目
+		npm run dev
+		tip:启动项目后就可以根据服务器给出的端口进行访问
+		端口号更改：./config/index.js
+		
+7.完成前面六个步骤就已经完成了项目的初始框架创建
+
+
+
+其他：
+
+vue-router:如果前面选择了安装，则不需要额外安装，如果没有安装则按下面安装
+
+安装 
+	npm install vue-router
+	
+1.路由引入（在路由配置页面使用）：
+	import Router from 'vue-router';
+	Vue.use(Router);
+
+2.在components/目录下创建需要的组件文件.vue
+
+3.给自定义组件配置路由信息,是一个对象数组
+	const routes = [
+		{
+			path:'',	//组件在路由配置中的路由
+			component:组件名称	//引入组件，组件名称是由import单文件组件而来
+			name:'',	//给该路由取得名称，可选
+		},
+		{
+			//第二个组件路由信息.....
+		}
+	];
+	
+	tip:路由页面引入单文件组件=》
+		import 自定义组件名 from '@/组件文件路径'
+		
+4.对路由信息进行实例化
+	export default new Router({
+		routes  	//es6语法，等效于routes:routes,
+	});
+
+5.将路由信息实例挂在到项目的Vue根实例中：
+	//在main.js中引入路由文件
+	import router from './router';
+	tip：如果引入的时候不写文件名，将引入目录下的index.js文件
+	
+	//挂在到Vue实例
+	new Vue({
+		router
+	})
+
+到此为止，路由配置也已经完成，可以使用路由进行页面跳转(实际上为组建的切换)
+
+Vue-router中跳转并不是使用<a>标签，而是使用路由标签：
+	<router-link to="路由信息中配置的路由路径">跳转到其他页</router-link>
+
+最后注意：
+	所有路由匹配到的组件显示区域都在
+		<router-view></router-view>
+	这个标签中
+
+
+
+
+	
+	

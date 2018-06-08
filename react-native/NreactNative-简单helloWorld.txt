@@ -8,7 +8,6 @@ React Native需要基础：
 	2.JSX
 	3.Node.js基础
 	4.Flexbox布局
-	
 
 开发调试：
 	1.运行react-native run-android

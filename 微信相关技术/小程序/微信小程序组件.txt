@@ -1,0 +1,65 @@
+组件：
+	组件是视图层的基本组成单元
+	组件自带一些功能与微信风格的样式
+	一个组件通常包括开始标签和结束标签，属性-用来修饰这个组件，内容-在两个标签之内
+	
+	tip：所有组件与属性都是小写，以连字符-连接
+	
+	
+所有组件共同属性：
+	id
+	class
+	style
+	hidden			：组件是否显示
+	data-*			：自定义属性
+	bind*/catch*	：事件
+
+特殊属性：几乎所有组件都有各自定义的属性，可以对该组件的功能或样式进行修饰
+
+
+组件列表分类以及具体组件
+	视图容器：
+		view：视图容器，属性：
+			hover-class：指定按下时的样式类
+			hover-stop-propagation：指定是否阻止本节点的祖先节点出现点击态
+			hover-start-time：按住后多久出现点击态，单位毫秒
+			hover-stay-time：手指松开后点击态保留时间，单位毫秒
+			
+			tip：
+				可用flexBox布局，与网页的弹性布局写法一样	
+				如果需要使用滚动视图，使用scroll-view
+			
+			
+		scroll-view：可滚动视图区域，属性：
+			scroll-x：Boolean，默认false，是否允许横向滚动
+			scroll-y：Boolean，默认false，是否允许纵向滚动
+			upper-threshold：Number，50，距顶部/左边多远时（单位px），触发scrolltoupper事件
+			lower-threshold：Number，50，距底部/右边多远时（单位px），触发scrolltolower事件
+			scroll-top：Number，设置竖向滚动条的位置
+			scroll-left：Number，设置横向滚动条的位置
+			scroll-into-view：String，值应为某子元素id（id不能以数字开头）。设置哪个方向可滚动，则在哪个方向滚动到该元素
+			scroll-with-animation：Boolean，false，在设置滚动条位置时使用动画过度
+			enable-back-to-top：Boolean，false，iOS点击顶部状态栏、安卓双击标题栏时，滚动条返回顶部，只支持竖向
+			bindscrolltoupper：EventHandle，滚动到顶部/左边，会触发 scrolltoupper 事件
+			bindscrolltolower：EventHandle，滚动到底部/右边，会触发 scrolltolower 事件
+			bindscroll：EventHandle，滚动时触发，event.detail = {scrollLeft, scrollTop, scrollHeight, scrollWidth, deltaX, deltaY}
+			
+			tip：
+				1.使用竖向滚动时，需要给<scroll-view/>一个固定高度，通过 WXSS 设置 height
+				2.请勿在scroll-view中使用textarea、map、canvas、video 组件
+				3.scroll-into-view 的优先级低于 scroll-top
+				4.在滚动 scroll-view 时会阻止页面回弹，所以在 scroll-view 中滚动，是无法触发 onPullDownRefresh
+				5.若要使用下拉刷新，请使用页面的滚动，而不是scroll-view，这样也能通过点击顶部状态栏回到页面顶部
+		
+		
+		swiper：滑块视图容器
+		
+	基础内容
+	表单组件
+	导航
+	媒体组件
+	地图
+	画布
+	开放能力
+	客服会话
+		
