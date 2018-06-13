@@ -1,0 +1,10 @@
+cheerio:为服务器端设计的核心jQuery的快速、灵活和精益实现
+
+bluebird：是一个功能齐全的promise封装库
+
+request：请求被设计成能够进行http调用的最简单的方法
+
+formidable：文件上传
+
+silly-datetime:格式化时间
+

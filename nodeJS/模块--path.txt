@@ -1,0 +1,51 @@
+path模块提供了一些工具函数，用于处理文件与目录的路径相关
+
+引用
+const path = require('path');
+
+
+方法：
+	
+1.path.basename(path,[ext]);
+	path:必须，路径
+	ext:可选，表示需要返回的文件后缀名，如'.html','.jpg'等
+	返回文件名称(不包含目录)，如果填了第二个参数，则拼接后缀名
+	
+2.path.dirname(path);
+	path:必须，路径
+	返回path的目录名
+	
+3.path.extname(path)
+	path:必须，路径
+	返回path的扩展名，即从最后一个.开始之后的所有字符串，如'.txt'
+	
+4.path.format(pathObject);
+	pathObject:必须,是一个包含属性dir\root\base\name\ext的对象
+	返回一个由pathObject对象拼接成的路径字符串
+	
+5.path.parse(path);
+	path:必须，路径字符串
+	返回一个pathObject，包含dir\root\base\name\ext属性的对象
+
+6.path.isAbsolute(path)
+	path:必须，路径
+	返回一个判断path是否为一个绝对路径的标识，true/false
+
+7.path.normalize(path)
+	path:必须，路径
+	返回一个规范化的path路径，会正常解析'..'和'.'片段
+	tip：'..'解析为上一级目录、'.'解析为当前工作目录
+
+
+还有一些不常用的参考手册
+
+
+
+
+
+
+
+
+
+
+

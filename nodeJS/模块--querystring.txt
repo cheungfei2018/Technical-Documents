@@ -8,7 +8,6 @@ querystring.stringify(prame1,prame2,prame3,prame4):序列化对象成字符串
 	prame2:string，可选，每个属性之间的界定符号，默认‘&’
 	prame3:string，可选，属性的键与值之间的界定符号，默认为‘=’
 	prame4:function,该函数的回调函数，默认是querystring.escape(prame)
-
 	
 	
 querystring.parse(prame1,prame2,prame3,prame4):将字符串反序列化为对象
@@ -16,6 +15,7 @@ querystring.parse(prame1,prame2,prame3,prame4):将字符串反序列化为对象
 	prame2:string，可选，字符串中分隔属性对的定界符号，默认‘&’
 	prame3:string，可选，字符串中要分割的属性对的键与值之间的定界符号，默认为‘=’
 	prame4:function,该函数的回调函数，默认是querystring.unescape()
+	tip:prame4可以将中文字符以utf-8的编码格式显示:{decodeURIComponent:gbkDecodeURIComponent}
 
 	
 	
