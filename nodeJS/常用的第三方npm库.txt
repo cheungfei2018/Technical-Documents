@@ -8,3 +8,5 @@ formidable：文件上传
 
 silly-datetime:格式化时间
 
+EJS：后台模板引擎
+
