@@ -1,0 +1,125 @@
+1.安装MongoDB
+
+官网下载：
+	https://www.mongodb.com/download-center?jmp=nav#community
+	
+官方文档：
+	https://docs.mongodb.com/
+	
+
+可视化工具mongoVue
+
+连接mongo和可视化工具
+
+
+1.数据库开机：mongod
+	>mongod --dbpath 数据库目录路径
+		--dbpath：选择数据库文档所在的文件夹
+	tip:开机的这个cmd命令行窗口不能关闭，否则数据库就关闭了
+
+2.另起一个cmd(必须),使用数据库 :mongo
+	>mongo
+
+3.选择数据库、如果该数据库不存在则是新建：use
+	>use 数据库名字
+	
+4.查看当前所在的数据库名称
+	>db
+
+
+5.创建集合实例（选择进入数据库之后）：
+	>db.student.insert({"name":"cyb","age":20,"sex":"nan"});
+	
+	student表示当前数据库中的集合(collections)
+	集合中能存储很多的document(一个json表示一个document)
+	tip:如果集合是第一次使用，则会自动创建，如student将会自建
+	
+6.删除当前所在的数据库：
+	>db.dropDatabase();
+	
+7.查看数据库列表：
+	>show dbs
+	
+8.查看数据库中的集合列表
+	>show collections
+	
+
+
+mongoDB的增删改查
+	
+插入数据
+	1.插入数据，随着数据的插入，集合也可以创建成功
+	>db.student.insert({json数据});
+
+	2.如果需要导入外部数据到数据库中
+	>mongoimport --db cyb --collection student --drop --file text.json
+	--db cyb	：表示将数据导入的数据库
+	--collection student	：表示导入到数据库中的哪个集合
+	--drop	：将集合中原有的document清空，如果不想清空可以不写
+	--file text.json	：要导入的文件(内部需要以json文件形式)
+	
+	
+
+查询数据：find()
+	1.查询集合中的所有documents
+	>db.student.find();  或者：
+	>db.student.find({});
+	
+	2.精确条件匹配：
+	>db.student.find({"属性名.子属性名":"属性值"});
+	
+	3.多个条件匹配
+	>db.student.find({"属性名.子属性名":"属性值","属性名":"属性值"});
+	
+	4.大于条件匹配 $gt ,小于条件匹配 $lt
+	>db.student.find({"属性名":{$gt:30}});	//表示>30
+	
+	5.或者条件匹配
+	>db.student.find({$or:[{"age":9},{"age":20}]});
+	
+	6.升级序
+	>db.student.find().sort({"score":1});	//表示分数升序，-1表示降序
+	>db.student.find().sort({"score":1,"name":1});	//多个属性控制升序
+	
+	7.范围条件匹配
+	>db.student.find({score.shuxue:{$in:[70,80]}});	
+	//匹配数学分数是70、80的数据，同一字段用$in,不同字段用$or
+
+	
+
+修改数据 pudate  $set
+	1.单条数据查找
+	>db.student.update({"name":"小明"},{$set:{"age":20}});
+	表示找到name=小明这条数据，然后将age属性修改为20
+	
+	2.修改所有匹配数据
+	>db.student.update({"score.shuxue":80},{$set:{"age":30}},{multi:true});
+	表示找到所有数学分数=80的数据，然后将所有数据的age修改为30
+	
+	3.如果需要将找到的数据直接替换掉，则不出现 $set 关键字
+	>db.student.update({"name":"小明"},{"name":"大明","age":10});
+	
+	
+删除数据
+	1.删除所有匹配到的数据
+	>db.student.remove({"属性名":"属性值"});
+	
+	2.删除匹配到的第一条数据
+	>db.student.remove({"属性名":"属性值"},{justOne:true});
+	
+	
+	
+	
+
+	
+在nodejs中使用MongoDB
+
+
+
+	
+
+	
+	
+	
+	
+	
