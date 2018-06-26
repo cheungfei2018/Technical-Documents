@@ -8,7 +8,6 @@ mysql支持：用于nodejs操作数据库
 	
 //导入
 	const mysql = require('mysql');
-
 	
 	
 	

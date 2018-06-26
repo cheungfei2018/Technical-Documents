@@ -1,0 +1,25 @@
+使用前提：能连接到一打开挂起的mongodb数据库服务器
+
+1.安装MongoDB驱动依赖
+	npm install mongodb
+	
+2.引入express/node
+	const MongoClient = require("mongodb").MongoClient;
+	//服务器地址及端口
+	const mongoUrl = "mongodb://localhost:27017";
+	
+3.连接mongodb服务器
+	MongoClient.connect(mongoUrl,function (err, client) {
+		//数据库服务器连接成功后操作代码块
+		
+		//选择数据库
+		const db = client.db("数据库名称");
+		
+		//选择数据库中要操作的集合
+		const collection = db.collection("集合名称");
+		
+		//然后就可以调用CURD封装函数
+		
+	});
+	
+4.具体实例查看自定义的mongoDB-Demo中的demo文件index.js
