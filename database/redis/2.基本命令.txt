@@ -1,0 +1,8 @@
+1.打开redis服务器(已配置环境变量的情况下)：
+	>redis-server.exe redis.conf	//redis.conf可省略
+
+2.启动redis客户端(另起一个cmd)
+	>redis-cli		//或者
+	>redis-cli -h host -p port -a password	//远程服务器时
+	
+3.

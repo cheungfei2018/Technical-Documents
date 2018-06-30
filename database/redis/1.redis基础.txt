@@ -1,0 +1,79 @@
+redis支持的数据类型：	
+	1.string 字符串
+	2.hash 哈希
+	3.list 列表
+	4.set 集合
+	5zset(shorted set)	有序集合
+	
+ string：
+	一个key对应一个value；
+	是二进制安全的，也就是string可以包含任何数据，如jpg图片或序列化的对象
+	一个键最大能存储512MB
+	
+	命令：
+		存：set key value
+		取：get name
+		
+
+ Hash（哈希）：可用于存储、读取、修改用户属性
+	一个键值(key=>value)对集合
+	是一个string类型的field和value的映射表，hash特别适合用于存储对象
+	
+	命令：
+		存：HMSET myhash field1 "Hello" field2 "World"
+		取：HGET myhash field1
+			HGET myhash field2
+			
+ 
+ list（列表）：可用于最新消息排行等功能、消息队列
+	是简单的字符串列表，按照插入顺序排序，可以添加一个元素到列表的头部或尾部
+	
+	命令：
+		存：lpush runoob redis	//向字符串头部添加
+			rpush runoob mongodb	//向字符串尾部添加
+		取：lrange runoob 0 2	//取出runoob中下标从0到2的
+		
+
+ set（集合）：可用于共同好友、利用唯一性统计访问网站的ip，好友推荐时，根据tag求交集，大于某个阈值就可以推送
+	数据唯一性
+	是string类型的无序集合
+	集合是通过哈希表实现的，所以添加、删除、查找的复杂度都是O(1)
+	
+	sadd命令：添加一个string元素到key对应的set集合中，成功返回1，已经存在返回0，可以对应的set不存在则返回错误
+	
+	命令：	
+		存：sadd runoob1 redis
+			sadd runoob1 mongodb
+			sadd runoob1 rabitmq
+		取：smembers runoob1	
+		
+		
+ zset（有序集合）：	可用于排行榜、带权重的消息队列
+	和set一样也是string类型元素的集合，且不允许重复成员
+	不同的是每个元素都会关联一个double类型的分数，redis真实通过分数来为集合中的成员进行从小到大的排序
+	
+	tip：zset成员唯一，但是分数(score)却可以重复
+	
+	zadd 命令：添加元素到集合，元素在集合中存在则更新对应score
+
+	命令：	
+		存：zadd runoob 0 redis	
+			zadd runoob 2 mongodb	//2表示分数
+			zadd runoob 0 rabitmq
+			zadd runoob 0 rabitmq	//返回0，无法添加入，只是更新score
+		取：ZRANGEBYSCORE runoob 0 1000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
